@@ -1,7 +1,9 @@
+import IPhoneDemo from "./components/common/IPhoneDemo";
+
 function App() {
   return (
     <>
-      <span className="text-red-500">hi</span>
+      <IPhoneDemo />
     </>
   );
 }

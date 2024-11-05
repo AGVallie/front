@@ -1,4 +1,4 @@
-const cn = (...classNames: string[]) => {
+const cn = (...classNames: (string | undefined)[]) => {
   return classNames
     .filter((item) => typeof item === "string")
     .map((className) => className.trim()) // 각 class 이름에서 앞뒤 공백 제거

@@ -21,7 +21,8 @@ function StatusBar({
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  const baseClassName = "items-center py-2 px-8 font-bold text-lg w-full";
+  const baseClassName =
+    "absolute z-50 items-center py-2 px-8 font-bold text-lg w-full pointer-events-none";
   const colorClassName = white ? "text-white" : "text-black";
   const processedClassName = cn(baseClassName, colorClassName, className);
   return (

@@ -19,7 +19,9 @@ function TabView({ tabs, className, ...props }: TabViewProps) {
       <div className="relative flex-grow">
         {tabs.map((tab) => {
           const tabShowClassName =
-            curTab == tab.id ? "" : "opacity-0 pointer-events-none";
+            curTab == tab.id
+              ? "ease-out"
+              : "ease-in opacity-0 pointer-events-none";
           const tabClassName = cn(tabShowClassName, tabBaseClassName);
           return (
             <Page key={tab.id} title={tab.title} className={tabClassName}>

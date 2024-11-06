@@ -7,6 +7,7 @@ import { IoNewspaper, IoNewspaperOutline } from "react-icons/io5";
 import { PiPlayCircleFill, PiPlayCircle } from "react-icons/pi";
 import TabType from "../../types/TabType";
 import TabView from "./TabView";
+import Routine from "../../pages/main/Routine";
 
 function IPhoneDemo() {
   return (
@@ -44,7 +45,7 @@ const tabs: TabType[] = [
     title: "자동화",
     iconSelected: PiPlayCircleFill,
     icon: PiPlayCircle,
-    page: Bookmarks,
+    page: Routine,
   },
   {
     id: 4,

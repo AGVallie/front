@@ -29,22 +29,10 @@
   overflow: hidden;
 }
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  display: none;
 }
 
 ::-webkit-scrollbar-button:start:decrement,
 ::-webkit-scrollbar-button:end:increment {
-  display: block;
-  height: 0px;
-  width: 0px;
-}
-
-::-webkit-scrollbar-thumb {
-  height: 50px;
-  width: 50px;
-  background: rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+  display: none;
 }

@@ -22,7 +22,8 @@ function Page({
   const navbarScrollClassName = scroll ? "bg-black/30 backdrop-blur" : "";
   const navbarClassName = cn(navbarBaseClassName, navbarScrollClassName);
 
-  const titleBaseClassName = "transition-opacity font-bold text-2xl text-white";
+  const titleBaseClassName =
+    "transition-opacity font-bold text-2xl text-white pointer-events-none";
   const titleShowClassName = scroll ? "opacity-0" : "";
   const titleClassName = cn(titleBaseClassName, titleShowClassName);
 

@@ -30,7 +30,6 @@ const TabBar = ({
       {tabs.map((tab) => {
         const isSelected = curTab === tab.id;
         const Icon = isSelected ? tab.iconSelected : tab.icon;
-
         return (
           <button
             key={tab.id}

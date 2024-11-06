@@ -1,9 +1,9 @@
 import { ButtonHTMLAttributes } from "react";
 import cn from "../../utils/cn";
-import { IoAdd, IoChevronForward, IoPlaySharp } from "react-icons/io5";
+import { IoAdd, IoChevronForward, IoPlaySharp, IoPower } from "react-icons/io5";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  iconType: "plus" | "rchevron" | "play";
+  iconType: "plus" | "rchevron" | "play" | "power";
   bigger?: boolean;
 }
 
@@ -29,6 +29,7 @@ function IconButton({
     plus: <IoAdd />,
     rchevron: <IoChevronForward />,
     play: <IoPlaySharp />,
+    power: <IoPower />,
   }[iconType];
 
   return (

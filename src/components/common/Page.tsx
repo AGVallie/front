@@ -37,7 +37,7 @@ function Page({
         {title && <span className={titleClassName}> {title} </span>}
         {children}
         {/* 스크롤 테스트용 */}
-        <HStack className="min-h-[128rem]" />
+        <HStack className="min-h-[32rem]" />
       </VStack>
     </VStack>
   );

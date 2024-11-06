@@ -8,6 +8,7 @@ import { PiPlayCircleFill, PiPlayCircle } from "react-icons/pi";
 import TabType from "../../types/TabType";
 import TabView from "./TabView";
 import Routine from "../../pages/main/Routine";
+import Devices from "../../pages/main/Devices";
 
 function IPhoneDemo() {
   return (
@@ -31,7 +32,7 @@ const tabs: TabType[] = [
     title: "기기",
     iconSelected: BsGrid1X2Fill,
     icon: BsGrid1X2,
-    page: Bookmarks,
+    page: Devices,
   },
   {
     id: 2,

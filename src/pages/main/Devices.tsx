@@ -1,3 +1,4 @@
+import Grid from "../../components/common/Grid";
 import IconButton from "../../components/common/IconButton";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
@@ -5,10 +6,10 @@ import Tile from "../../components/common/Tile";
 function Devices() {
   return (
     <VStack className="gap-8">
-      <HStack className="flex-wrap justify-between gap-y-2">
-        <Tile className="w-[49%] !p-2">
+      <Grid cols={2} gap={2}>
+        <Tile className="!p-2">
           <VStack>
-            <HStack className="w-full">
+            <HStack>
               <img src="/images/devices/washer.webp" className="w-10" />
               <Spacer />
               <IconButton iconType={"power"} />
@@ -22,9 +23,9 @@ function Devices() {
             </VStack>
           </VStack>
         </Tile>
-        <Tile className="w-[49%] !p-2">
+        <Tile className="!p-2">
           <VStack>
-            <HStack className="w-full">
+            <HStack>
               <img src="/images/devices/tv.webp" className="w-10" />
               <Spacer />
               <IconButton iconType={"power"} />
@@ -38,9 +39,9 @@ function Devices() {
             </VStack>
           </VStack>
         </Tile>
-        <Tile className="w-[49%] !p-2 bg-white/70">
+        <Tile className="!p-2 bg-white/70">
           <VStack>
-            <HStack className="w-full">
+            <HStack>
               <img src="/images/sensors/vent.webp" className="w-10" />
               <Spacer />
               <IconButton iconType={"power"} className="!bg-gray-50" />
@@ -54,7 +55,7 @@ function Devices() {
             </VStack>
           </VStack>
         </Tile>
-      </HStack>
+      </Grid>
     </VStack>
   );
 }

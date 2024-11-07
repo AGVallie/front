@@ -4,14 +4,15 @@ import IconButton from "../../components/common/IconButton";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
 import { PiFanFill } from "react-icons/pi";
+import Grid from "../../components/common/Grid";
 
 function Routine() {
   return (
     <VStack className="gap-8">
       <VStack>
         <span className="text-white text-xs"> 수동 루틴 </span>
-        <HStack className="flex-wrap justify-between gap-y-2">
-          <Tile className="w-[49%]">
+        <Grid cols={2} gap={2}>
+          <Tile>
             <VStack className="items-center gap-4">
               <HStack className="w-full">
                 <IoSunny color="FFD122" size={"1.5rem"} />
@@ -21,7 +22,7 @@ function Routine() {
               <span className="w-full text-xs font-bold">기상하기</span>
             </VStack>
           </Tile>
-          <Tile className="w-[49%]">
+          <Tile>
             <VStack className="items-center gap-4">
               <HStack className="w-full">
                 <IoMoonSharp color="A599FF" size={"1.5rem"} />
@@ -31,7 +32,7 @@ function Routine() {
               <span className="w-full text-xs font-bold">취침하기</span>
             </VStack>
           </Tile>
-          <Tile className="w-[49%]">
+          <Tile>
             <VStack className="items-center gap-4">
               <HStack className="w-full">
                 <IoRestaurant color="pink" size={"1.5rem"} />
@@ -41,19 +42,19 @@ function Routine() {
               <span className="w-full text-xs font-bold">식사시간</span>
             </VStack>
           </Tile>
-        </HStack>
+        </Grid>
       </VStack>
 
       <VStack>
         <span className="text-white text-xs"> 자동 루틴 </span>
-        <HStack className="flex-wrap justify-between gap-y-2">
-          <Tile className="w-[49%]">
+        <Grid cols={2} gap={2}>
+          <Tile>
             <VStack className="gap-4">
               <IoPeopleCircleSharp color="skyblue" size={"1.5rem"} />
               <span className="w-full text-xs font-bold">손님 맞이하기</span>
             </VStack>
           </Tile>
-          <Tile className="w-[49%]">
+          <Tile>
             <VStack className="gap-4">
               <IoBulb color="orange" size={"1.5rem"} />
               <span className="w-full text-xs font-bold">
@@ -61,13 +62,13 @@ function Routine() {
               </span>
             </VStack>
           </Tile>
-          <Tile className="w-[49%]">
+          <Tile>
             <VStack className="gap-4">
               <PiFanFill color="lightblue" size={"1.5rem"} />
               <span className="w-full text-xs font-bold">아침 환기</span>
             </VStack>
           </Tile>
-        </HStack>
+        </Grid>
       </VStack>
     </VStack>
   );

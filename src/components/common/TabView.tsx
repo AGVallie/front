@@ -14,6 +14,7 @@ function TabView({ tabs, className, ...props }: TabViewProps) {
   const processedClassName = cn(baseClassName, className);
 
   const tabBaseClassName = "absolute min-h-full transition-opacity";
+
   return (
     <VStack className={processedClassName} {...props}>
       <div className="relative flex-grow">
@@ -24,7 +25,12 @@ function TabView({ tabs, className, ...props }: TabViewProps) {
               : "ease-in opacity-0 pointer-events-none";
           const tabClassName = cn(tabShowClassName, tabBaseClassName);
           return (
-            <Page key={tab.id} title={tab.title} className={tabClassName}>
+            <Page
+              key={tab.id}
+              title={tab.title}
+              className={tabClassName}
+              hideNavigationBar={tab.id == 4}
+            >
               <tab.page />
             </Page>
           );

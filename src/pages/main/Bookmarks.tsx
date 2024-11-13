@@ -1,11 +1,17 @@
 import { IoIosLock } from "react-icons/io";
-import { IoQrCodeOutline, IoStarOutline } from "react-icons/io5";
+import {
+  IoAddSharp,
+  IoEllipsisVertical,
+  IoHome,
+  IoQrCodeOutline,
+  IoStarOutline,
+} from "react-icons/io5";
 import IconButton from "../../components/common/IconButton";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
 import SmartThingsIcon from "../../components/icons/SmartThingsIcon";
 
-function Bookmarks() {
+export function Bookmarks() {
   return (
     <VStack className="gap-3">
       <Tile fit>
@@ -48,4 +54,15 @@ function Bookmarks() {
   );
 }
 
-export default Bookmarks;
+export function BookmarksNavigationBar() {
+  return (
+    <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
+      <IoQrCodeOutline color="white" />
+      <span className=" text-white"> 집(1)</span>
+      <Spacer />
+      <IoHome color="white" />
+      <IoAddSharp size="1.5rem" color="white" />
+      <IoEllipsisVertical color="white" />
+    </HStack>
+  );
+}

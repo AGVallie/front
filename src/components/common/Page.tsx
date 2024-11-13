@@ -6,13 +6,19 @@ import useScroll from "../../hooks/useScroll";
 
 interface PageProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
-  hideNavigationBar?: boolean;
+  white?: boolean;
+  transparent?: boolean;
+  hideTitle?: boolean;
+  navigationBar: () => JSX.Element;
 }
 function Page({
   title = "",
   className,
+  white = false,
+  transparent = false,
+  hideTitle = false,
   children,
-  hideNavigationBar = false,
+  navigationBar,
   ...props
 }: PropsWithChildren<PageProps>) {
   const { scrollRef, scrollToTop, scroll } = useScroll();
@@ -21,39 +27,45 @@ function Page({
   const containerClassName = cn(containerBaseClassName, className);
 
   const navbarBaseClassName = "absolute transition-colors w-full";
-  const navbarScrollClassName = scroll ? "bg-black/30 backdrop-blur" : "";
-  const navbarClassName = cn(navbarBaseClassName, navbarScrollClassName);
+  const navbarScrollClassName = scroll ? "backdrop-blur" : "";
+  const navBarScrollBgColorClassName =
+    !transparent && scroll ? "bg-black/30" : "";
+  const navbarClassName = cn(
+    navbarBaseClassName,
+    navBarScrollBgColorClassName,
+    navbarScrollClassName
+  );
 
   const titleBaseClassName =
-    "transition-opacity font-bold text-2xl text-white pointer-events-none";
+    "transition-opacity font-bold text-2xl pointer-events-none";
+  const titleColorClassName = white ? "text-white" : "text-black";
   const titleShowClassName = scroll ? "opacity-0" : "";
-  const titleClassName = cn(titleBaseClassName, titleShowClassName);
+  const titleHideClassName = !title || hideTitle ? "hidden" : "";
+  const titleClassName = cn(
+    titleBaseClassName,
+    titleColorClassName,
+    titleHideClassName,
+    titleShowClassName
+  );
 
-  //네비게이션 바 있음
-  if (!hideNavigationBar)
-    return (
-      <VStack className={containerClassName} {...props}>
-        <div className={navbarClassName}>
-          <button className="w-full h-8" onClick={scrollToTop} />
-          <NavigationBar title={title} showTitle={scroll > 0} />
-        </div>
-        <VStack
-          className="w-full p-4 gap-4 overflow-auto pt-24"
-          ref={scrollRef}
-        >
-          {title && <span className={titleClassName}> {title} </span>}
-          {children}
-          {/* 스크롤 테스트용 */}
-          <HStack className="min-h-[32rem]" />
-        </VStack>
-      </VStack>
-    );
-
-  //네비게이션 바 없음
+  const Content = navigationBar;
   return (
     <VStack className={containerClassName} {...props}>
-      <VStack className="w-full p-4 gap-4 overflow-auto" ref={scrollRef}>
+      <div className={navbarClassName}>
+        <button className="w-full h-8" onClick={scrollToTop} />
+        <NavigationBar
+          title={title}
+          showTitle={!hideTitle && scroll > 0}
+          className={titleColorClassName}
+        >
+          <Content />
+        </NavigationBar>
+      </div>
+      <VStack className="w-full p-4 gap-4 overflow-auto pt-24" ref={scrollRef}>
+        {<span className={titleClassName}> {title} </span>}
         {children}
+        {/* 스크롤 테스트용 */}
+        <HStack className="min-h-[32rem]" />
       </VStack>
     </VStack>
   );

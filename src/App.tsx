@@ -1,11 +1,7 @@
-import IPhoneDemo from "./components/common/IPhoneDemo";
+import IPhoneDemo from "./pages/IPhoneDemo";
 
 function App() {
-  return (
-    <>
-      <IPhoneDemo />
-    </>
-  );
+  return <IPhoneDemo />;
 }
 
 export default App;

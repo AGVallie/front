@@ -1,10 +1,7 @@
+import { HTMLAttributes, PropsWithChildren } from "react";
 import cn from "../../utils/cn";
-import { HStack, Spacer, VStack } from "./Stack";
-import { IoQrCodeOutline } from "react-icons/io5";
-import { IoHome } from "react-icons/io5";
-import { IoAddSharp } from "react-icons/io5";
-import { IoEllipsisVertical } from "react-icons/io5";
-interface NavigationBarProps {
+import { VStack } from "./Stack";
+interface NavigationBarProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   white?: boolean;
   title: string;
@@ -13,31 +10,22 @@ interface NavigationBarProps {
 
 function NavigationBar({
   className,
-  white = false,
   title,
   showTitle = false,
-}: NavigationBarProps) {
-  const titleBaseClassName = "absolute font-bold text-white transition-opacity";
+  children,
+  ...props
+}: PropsWithChildren<NavigationBarProps>) {
+  const titleBaseClassName = "absolute font-bold transition-opacity";
   const titleShowClassName = showTitle ? "" : "opacity-0";
-  const titleProcessedClassName = cn(titleBaseClassName, titleShowClassName);
+  const titleClassName = cn(titleBaseClassName, titleShowClassName);
+  const containerBaseClassName =
+    "w-full h-12 items-center justify-center top-0 z-10";
+  const containerClassName = cn(containerBaseClassName, className);
 
   return (
-    <VStack
-      className={cn(
-        className,
-        "w-full h-12 items-center justify-center top-0 z-10",
-        white ? "bg-secondary" : ""
-      )}
-    >
-      <span className={titleProcessedClassName}> {title}</span>
-      <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
-        <IoQrCodeOutline color="white" />
-        <span className=" text-white"> 집(1)</span>
-        <Spacer />
-        <IoHome color="white" />
-        <IoAddSharp size="1.5rem" color="white" />
-        <IoEllipsisVertical color="white" />
-      </HStack>
+    <VStack className={containerClassName} {...props}>
+      <span className={titleClassName}> {title}</span>
+      {children}
     </VStack>
   );
 }

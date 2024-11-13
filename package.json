@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
+    "mqtt": "^5.10.1",
     "postcss": "^8.4.47",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -30,6 +31,7 @@
     "@storybook/react": "8.4.1",
     "@storybook/react-vite": "^8.4.1",
     "@storybook/test": "8.4.1",
+    "@types/mqtt": "^2.5.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.13.0",

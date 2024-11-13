@@ -1,4 +1,12 @@
-import { IoPeopleCircleSharp, IoRestaurant, IoSunny } from "react-icons/io5";
+import {
+  IoAddSharp,
+  IoEllipsisVertical,
+  IoHome,
+  IoPeopleCircleSharp,
+  IoQrCodeOutline,
+  IoRestaurant,
+  IoSunny,
+} from "react-icons/io5";
 import { IoBulb, IoMoonSharp } from "react-icons/io5";
 import IconButton from "../../components/common/IconButton";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
@@ -6,7 +14,7 @@ import Tile from "../../components/common/Tile";
 import { PiFanFill } from "react-icons/pi";
 import Grid from "../../components/common/Grid";
 
-function Routine() {
+export function Routine() {
   return (
     <VStack className="gap-8">
       <VStack>
@@ -74,4 +82,15 @@ function Routine() {
   );
 }
 
-export default Routine;
+export function RoutineNavigationBar() {
+  return (
+    <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
+      <IoQrCodeOutline color="white" />
+      <span className="text-white"> 집(1)</span>
+      <Spacer />
+      <IoHome color="white" />
+      <IoAddSharp size="1.5rem" color="white" />
+      <IoEllipsisVertical color="white" />
+    </HStack>
+  );
+}

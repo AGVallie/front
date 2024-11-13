@@ -19,6 +19,15 @@ export default {
       fontFamily: {
         samsungSharpSans: ["SamsungSharpSans", "sans-serif"], // 폰트 이름을 지정
       },
+      rotate: {
+        315: "315deg",
+      },
+      transitionTimingFunction: {
+        bounce: "cubic-bezier(0.6, -0.3, 0.4, 1.2)", // 튕기는 효과를 위한 cubic-bezier 값
+      },
+      zIndex: {
+        60: "60",
+      },
     },
   },
   plugins: [],

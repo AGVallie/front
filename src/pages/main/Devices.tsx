@@ -1,9 +1,15 @@
+import {
+  IoQrCodeOutline,
+  IoHome,
+  IoAddSharp,
+  IoEllipsisVertical,
+} from "react-icons/io5";
 import Grid from "../../components/common/Grid";
 import IconButton from "../../components/common/IconButton";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
 
-function Devices() {
+export function Devices() {
   return (
     <VStack className="gap-8">
       <Grid cols={2} gap={2}>
@@ -60,4 +66,15 @@ function Devices() {
   );
 }
 
-export default Devices;
+export function DevicesNavigationBar() {
+  return (
+    <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
+      <IoQrCodeOutline color="white" />
+      <span className="text-white"> 집(1)</span>
+      <Spacer />
+      <IoHome color="white" />
+      <IoAddSharp size="1.5rem" color="white" />
+      <IoEllipsisVertical color="white" />
+    </HStack>
+  );
+}

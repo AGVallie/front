@@ -22,3 +22,7 @@ const Grid = forwardRef<HTMLDivElement, PropsWithChildren<GridProps>>(
 );
 
 export default Grid;
+
+// tailwindcss 컴파일용
+// grid-rows-0 grid-rows-1 grid-rows-2 grid-rows-3
+// grid-cols-0 grid-cols-1 grid-cols-2 grid-cols-3

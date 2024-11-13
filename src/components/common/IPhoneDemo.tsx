@@ -1,14 +1,15 @@
-import IPhoneFrame from "./IPhoneFrame";
-import StatusBar from "./StatusBar";
-import Bookmarks from "../../pages/main/Bookmarks";
 import { BsStarFill, BsStar, BsGrid1X2Fill, BsGrid1X2 } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import { IoNewspaper, IoNewspaperOutline } from "react-icons/io5";
 import { PiPlayCircleFill, PiPlayCircle } from "react-icons/pi";
+import { Bookmarks, BookmarksNavigationBar } from "../../pages/main/Bookmarks";
+import { Devices, DevicesNavigationBar } from "../../pages/main/Devices";
+import { Menu, MenuNavigationBar } from "../../pages/main/Menu";
+import { Routine, RoutineNavigationBar } from "../../pages/main/Routine";
 import TabType from "../../types/TabType";
+import IPhoneFrame from "./IPhoneFrame";
+import StatusBar from "./StatusBar";
 import TabView from "./TabView";
-import Routine from "../../pages/main/Routine";
-import Devices from "../../pages/main/Devices";
 
 function IPhoneDemo() {
   return (
@@ -26,6 +27,7 @@ const tabs: TabType[] = [
     iconSelected: BsStarFill,
     icon: BsStar,
     page: Bookmarks,
+    navigationBar: BookmarksNavigationBar,
   },
   {
     id: 1,
@@ -33,6 +35,7 @@ const tabs: TabType[] = [
     iconSelected: BsGrid1X2Fill,
     icon: BsGrid1X2,
     page: Devices,
+    navigationBar: DevicesNavigationBar,
   },
   {
     id: 2,
@@ -40,6 +43,7 @@ const tabs: TabType[] = [
     iconSelected: IoNewspaper,
     icon: IoNewspaperOutline,
     page: Bookmarks,
+    navigationBar: BookmarksNavigationBar,
   },
   {
     id: 3,
@@ -47,13 +51,17 @@ const tabs: TabType[] = [
     iconSelected: PiPlayCircleFill,
     icon: PiPlayCircle,
     page: Routine,
+    navigationBar: RoutineNavigationBar,
   },
   {
     id: 4,
     title: "메뉴",
     iconSelected: HiMenu,
     icon: HiMenu,
-    page: Bookmarks,
+    page: Menu,
+    navigationBar: MenuNavigationBar,
+    backgroundColor: "bg-gray-100",
+    secondaryColor: "black",
   },
 ];
 export default IPhoneDemo;

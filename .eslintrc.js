@@ -33,6 +33,7 @@ export default {
     ],
   },
   settings: {
+    "import/external-module-folders": [".yarn"],
     react: {
       version: "detect", // React 버전을 자동으로 감지
     },

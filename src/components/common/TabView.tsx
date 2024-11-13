@@ -9,9 +9,14 @@ interface TabViewProps extends HTMLAttributes<HTMLDivElement> {
   tabs: TabType[];
 }
 function TabView({ tabs, className, ...props }: TabViewProps) {
-  const [curTab, setTab] = useState(0);
-  const baseClassName = "w-full h-full";
-  const processedClassName = cn(baseClassName, className);
+  const [curTab, setTab] = useState(4);
+  const baseClassName = "transition-colors w-full h-full";
+  const backgroundColorClassName = tabs[curTab].backgroundColor;
+  const processedClassName = cn(
+    baseClassName,
+    backgroundColorClassName,
+    className
+  );
 
   const tabBaseClassName = "absolute min-h-full transition-opacity";
 
@@ -28,15 +33,23 @@ function TabView({ tabs, className, ...props }: TabViewProps) {
             <Page
               key={tab.id}
               title={tab.title}
+              white={!tab.backgroundColor}
+              transparent={tab.backgroundColor as boolean | undefined}
+              hideTitle={tab.hideTitle}
               className={tabClassName}
-              hideNavigationBar={tab.id == 4}
+              navigationBar={tab.navigationBar}
             >
               <tab.page />
             </Page>
           );
         })}
       </div>
-      <TabBar white curTab={curTab} onTabSelect={setTab} tabs={tabs} />
+      <TabBar
+        white={!tabs[curTab].secondaryColor}
+        curTab={curTab}
+        onTabSelect={setTab}
+        tabs={tabs}
+      />
     </VStack>
   );
 }

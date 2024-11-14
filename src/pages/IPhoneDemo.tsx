@@ -12,11 +12,18 @@ import TabView from "../components/common/TabView";
 import {
   IoChatbubbleEllipses,
   IoChatbubbleEllipsesOutline,
+  IoHome,
+  IoHomeOutline,
 } from "react-icons/io5";
-import { MdOutlineSettingsRemote, MdSettingsRemote } from "react-icons/md";
 import { MqttDemo, MqttDemoNavigationBar } from "./main/MqttDemo";
 import { BallieChat, BallieChatNavigationBar } from "./ballie/BallieChat";
-
+import {
+  BallieMapView,
+  BallieMapViewNavigationBar,
+} from "./ballie/BallieMapView";
+import { AiFillAliwangwang } from "react-icons/ai";
+import { AiOutlineAliwangwang } from "react-icons/ai";
+import { RiEyeCloseFill, RiEye2Line } from "react-icons/ri";
 function IPhoneDemo() {
   return (
     <IPhoneFrame className="bg-smartthings">
@@ -73,39 +80,40 @@ const tabs: TabType[] = [
   },
   {
     id: 5,
-    title: "제어기",
-    iconSelected: MdSettingsRemote,
-    icon: MdOutlineSettingsRemote,
+    title: "볼리 렌즈",
+    iconSelected: RiEyeCloseFill,
+    icon: RiEye2Line,
     page: MqttDemo,
     navigationBar: MqttDemoNavigationBar,
   },
   {
     id: 6,
-    title: "자동화",
-    iconSelected: PiPlayCircleFill,
-    icon: PiPlayCircle,
+    title: "볼리 루틴",
+    iconSelected: AiFillAliwangwang,
+    icon: AiOutlineAliwangwang,
     page: Routine,
     navigationBar: RoutineNavigationBar,
   },
   {
     id: 7,
-    title: "메뉴",
-    iconSelected: HiMenu,
-    icon: HiMenu,
-    page: Menu,
-    navigationBar: MenuNavigationBar,
+    title: "맵 뷰",
+    iconSelected: IoHome,
+    icon: IoHomeOutline,
+    page: BallieMapView,
+    navigationBar: BallieMapViewNavigationBar,
     backgroundColor: "bg-gray-100",
     secondaryColor: "black",
   },
   {
     id: 8,
-    title: "메뉴2",
-    iconSelected: HiMenu,
-    icon: HiMenu,
-    page: Menu,
-    navigationBar: MenuNavigationBar,
+    title: "맵 뷰",
+    iconSelected: IoHome,
+    icon: IoHomeOutline,
+    page: BallieMapView,
+    navigationBar: BallieMapViewNavigationBar,
     backgroundColor: "bg-gray-100",
     secondaryColor: "black",
+    hideTitle: true,
   },
 ];
 export default IPhoneDemo;

@@ -9,7 +9,7 @@ interface TabViewProps extends HTMLAttributes<HTMLDivElement> {
   tabs: TabType[];
 }
 function TabView({ tabs, className, ...props }: TabViewProps) {
-  const [curTab, setTab] = useState(4);
+  const [curTab, setTab] = useState(8);
   const baseClassName = "transition-colors w-full h-full";
   const backgroundColorClassName = tabs[curTab].backgroundColor;
   const processedClassName = cn(

@@ -79,7 +79,7 @@ const messages: MessageType[] = [
     id: 3,
     createdAt: new Date(),
     isUser: false,
-    text: "거실의 멀티탭 현황입니다.",
+    text: "거실의 멀티탭 #1 현황입니다.",
     outlet: {
       id: 0,
       createdAt: new Date(),
@@ -161,7 +161,7 @@ function Outlet({ outlet }: OutletProps) {
     </HStack>
   );
 }
-//rotate-45
+// rotate-45 -rotate-45
 
 export function BallieChatNavigationBar() {
   return (

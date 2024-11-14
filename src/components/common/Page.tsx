@@ -1,6 +1,6 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
 import NavigationBar from "./NavigationBar";
-import { HStack, VStack } from "./Stack";
+import { VStack } from "./Stack";
 import cn from "../../utils/cn";
 import useScroll from "../../hooks/useScroll";
 
@@ -65,7 +65,7 @@ function Page({
         {<span className={titleClassName}> {title} </span>}
         {children}
         {/* 스크롤 테스트용 */}
-        <HStack className="min-h-[32rem]" />
+        {/* <HStack className="min-h-[32rem]" /> */}
       </VStack>
     </VStack>
   );

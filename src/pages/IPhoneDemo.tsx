@@ -111,8 +111,6 @@ const tabs: TabType[] = [
     icon: IoHomeOutline,
     page: BallieMapView,
     navigationBar: BallieMapViewNavigationBar,
-    backgroundColor: "bg-gray-100",
-    secondaryColor: "black",
     hideTitle: true,
   },
 ];

@@ -1,41 +1,76 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { IoAddSharp, IoEllipsisVertical } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
-import StatusBar from "../../components/common/StatusBar";
+import useScroll from "../../hooks/useScroll";
+import { useEffect, useState } from "react";
+import AreaOutletGroupTile from "../../components/ballieMap/AreaOutletGroupTile";
+import SSAFYMap from "./SAFFYMap";
+import areas from "../../data/areas";
+
+const MAP_SCALE_FACTOR = 1.5;
 
 export function BallieMapView() {
+  const { scrollRef, scroll, scrollTo } = useScroll();
+  const [selectedArea, setSelectedArea] = useState(-1);
+  const mapSize = selectedArea == -1 ? Math.max(150, 300 - scroll) : 150;
+
+  const onMapClick = () => {
+    setSelectedArea(-1);
+  };
+  const onAreaSelect = (idx: number) => {
+    if (selectedArea != idx) setSelectedArea(idx);
+    else setSelectedArea(-1);
+  };
+
+  useEffect(() => {
+    scrollTo(selectedArea * 48 - 20);
+  }, [selectedArea]);
+
+  const ssafyMapStyle: React.CSSProperties = {
+    scale: selectedArea === -1 ? `${mapSize / 350}` : `${MAP_SCALE_FACTOR}`,
+    translate:
+      selectedArea === -1
+        ? ""
+        : `${(-areas[selectedArea].x + 104) * MAP_SCALE_FACTOR}px ${(-areas[selectedArea].y + 104) * MAP_SCALE_FACTOR}px`,
+    transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
+  };
+
   return (
-    <HStack className="w-full h-full">
-      <VStack className="w-full gap-3">
-        <Tile className="items-center p-10">
-          <div className="relative">
-            <div className="relative flex items-center justify-center w-64 h-64 border-[0.4rem] border-black rounded-3xl z-10 overflow-hidden">
-              <span className="text-center font-bold text-slate-300">
-                SSAFY
-              </span>
-              <div className="absolute border-[0.4rem] border-black w-12 h-24 top-16 -left-8 rounded-[50%]" />
-              <div className="absolute border-[0.4rem] border-black w-20 h-32 top-0 left-56 rounded-[50%]" />
-            </div>
-            <div className="absolute w-12 h-12 bg-orange-500 -top-6 left-16" />
-            <div className="absolute w-12 h-12 bg-yellow-300 top-24 left-56" />
-            <div className="absolute border-[0.4rem] border-black w-20 h-32 top-28 left-48 rounded-[50%]" />
-            <div className="absolute w-16 h-48 bg-gray-50 top-24 left-48" />
-            <div className="absolute w-8 h-12 bg-yellow-300 top-24 left-56" />
-            <div className="absolute w-12 h-12 bg-red-500 top-56 left-48" />
-            <div className="absolute w-12 h-12 bg-blue-500 top-56 left-8" />
-            <div className="absolute w-12 h-12 bg-purple-500 top-40 -left-6" />
-            <div className="absolute w-12 h-12 bg-green-500 top-6 -left-6" />
-          </div>
-        </Tile>
+    <VStack className="w-full h-full gap-3">
+      {/* 보는 영역 */}
+      <Tile
+        className="items-center justify-center p-12 overflow-hidden shrink-0"
+        style={{
+          height: `${mapSize}px`,
+          transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        }}
+        onClick={onMapClick}
+      >
+        <SSAFYMap
+          style={ssafyMapStyle}
+          onAreaSelect={setSelectedArea}
+          areas={areas}
+        />
+      </Tile>
+      {/* 인터랙션 영역 */}
+      <VStack className="w-full gap-3 overflow-y-auto" ref={scrollRef}>
+        {areas.map((area, idx) => (
+          <AreaOutletGroupTile
+            key={idx}
+            area={area}
+            isSelected={selectedArea === idx}
+            onClick={() => onAreaSelect(idx)}
+          />
+        ))}
       </VStack>
-    </HStack>
+    </VStack>
   );
 }
 
 export function BallieMapViewNavigationBar() {
   return (
     <>
-      <StatusBar className="absolute -translate-y-[2.4rem] z-50" />
       <HStack className="items-center justify-center py-2 pl-4 pr-6 w-full border-none gap-4">
         <span className="absolute font-bold"> SSAFY 맵 </span>
         <Spacer />

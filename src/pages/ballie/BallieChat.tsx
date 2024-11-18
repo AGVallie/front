@@ -5,8 +5,7 @@ import Tile from "../../components/common/Tile";
 import to12HourFormat from "../../utils/to12HourFormat";
 import cn from "../../utils/cn";
 import BallieIcon from "../../components/icons/BallieIcon";
-import OutletType from "../../types/OutletType";
-import PortType from "../../types/PortType";
+import Outlet from "../../components/common/Outlet";
 
 export function BallieChat() {
   return (
@@ -125,43 +124,6 @@ const messages: MessageType[] = [
     },
   },
 ];
-
-interface OutletProps {
-  outlet: OutletType;
-}
-
-function Outlet({ outlet }: OutletProps) {
-  const baseClassName =
-    "border-4 border-gray-300 h-12 rounded-full items-center p-2 !w-fit";
-  const processedClassName = cn(baseClassName, outlet.color);
-  return (
-    <HStack className={processedClassName}>
-      {Array.from({ length: 4 }).map((_, idx) => {
-        const port: PortType | undefined = outlet.ports.filter(
-          (port) => port.position == idx
-        )[0];
-        if (!port)
-          return (
-            <HStack
-              className={`flex border-4 border-gray-300 w-8 h-8 rounded-full items-center justify-center -rotate-${outlet.angle}`}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-              <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-            </HStack>
-          );
-
-        const baseClassName = `absolute border-4 border-slate-400 rotate-${outlet.angle}`;
-        const processedClassName = cn(baseClassName, port.color, port.shape);
-        return (
-          <div className="relative flex border-4 border-gray-300 w-8 h-8 rounded-full items-center justify-center">
-            <div className={processedClassName} />
-          </div>
-        );
-      })}
-    </HStack>
-  );
-}
-// rotate-45 -rotate-45
 
 export function BallieChatNavigationBar() {
   return (

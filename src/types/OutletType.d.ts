@@ -11,6 +11,8 @@ type OutletType = {
   color: string;
   portCount: number;
   ports: PortType[];
+  name?: string;
+  isOn?: boolean;
 };
 
 export default OutletType;

@@ -12,6 +12,15 @@ function useScroll() {
     }
   };
 
+  const scrollTo = (top: number) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: top,
+        behavior: "smooth",
+      });
+    }
+  };
+
   //스크롤값  업데이트
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -32,7 +41,7 @@ function useScroll() {
     };
   }, []);
 
-  return { scrollRef, scrollToTop, scroll };
+  return { scrollRef, scrollTo, scrollToTop, scroll };
 }
 
 export default useScroll;

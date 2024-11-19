@@ -5,15 +5,15 @@ import Tile from "../../components/common/Tile";
 import useScroll from "../../hooks/useScroll";
 import { useEffect, useState } from "react";
 import AreaOutletGroupTile from "../../components/ballieMap/AreaOutletGroupTile";
-import SSAFYMap from "./SAFFYMap";
+import SSAFYMap from "../../components/ballieMap/SAFFYMap";
 import areas from "../../data/areas";
+import Grid from "../../components/common/Grid";
 
 const MAP_SCALE_FACTOR = 1.5;
 
 export function BallieMapView() {
-  const { scrollRef, scroll, scrollTo } = useScroll();
   const [selectedArea, setSelectedArea] = useState(-1);
-  const mapSize = selectedArea == -1 ? Math.max(150, 300 - scroll) : 150;
+  const mapSize = selectedArea == -1 ? 300 : 150;
 
   const onMapClick = () => {
     setSelectedArea(-1);
@@ -22,10 +22,6 @@ export function BallieMapView() {
     if (selectedArea != idx) setSelectedArea(idx);
     else setSelectedArea(-1);
   };
-
-  useEffect(() => {
-    scrollTo(selectedArea * 48 - 20);
-  }, [selectedArea]);
 
   const ssafyMapStyle: React.CSSProperties = {
     scale: selectedArea === -1 ? `${mapSize / 350}` : `${MAP_SCALE_FACTOR}`,
@@ -40,7 +36,7 @@ export function BallieMapView() {
     <VStack className="w-full h-full gap-3">
       {/* 보는 영역 */}
       <Tile
-        className="items-center justify-center p-12 overflow-hidden shrink-0"
+        className={`items-center justify-center p-12 overflow-hidden shrink-0 ${selectedArea == -1 ? "" : "z-50"}`}
         style={{
           height: `${mapSize}px`,
           transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
@@ -54,7 +50,7 @@ export function BallieMapView() {
         />
       </Tile>
       {/* 인터랙션 영역 */}
-      <VStack className="w-full gap-3 overflow-y-auto" ref={scrollRef}>
+      <Grid className="w-full gap-3 overflow-y-auto" cols={2}>
         {areas.map((area, idx) => (
           <AreaOutletGroupTile
             key={idx}
@@ -63,7 +59,7 @@ export function BallieMapView() {
             onClick={() => onAreaSelect(idx)}
           />
         ))}
-      </VStack>
+      </Grid>
     </VStack>
   );
 }

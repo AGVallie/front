@@ -3,7 +3,7 @@ import { HStack, VStack } from "./Stack";
 import cn from "../../utils/cn";
 import TabType from "../../types/TabType";
 import useToggle from "../../hooks/useToggle";
-import BallieMenuModal from "./BallieMenuModal";
+import BallieMenuModal from "./modals/BallieMenuModal";
 import BallieIcon from "../icons/BallieIcon";
 
 interface TabBarProps extends HTMLAttributes<HTMLDivElement> {

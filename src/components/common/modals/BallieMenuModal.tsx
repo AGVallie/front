@@ -1,9 +1,9 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
-import cn from "../../utils/cn";
-import StatusBar from "./StatusBar";
-import BallieIcon from "../icons/BallieIcon";
-import { VStack } from "./Stack";
-import TabType from "../../types/TabType";
+import cn from "../../../utils/cn";
+import StatusBar from "../StatusBar";
+import BallieIcon from "../../icons/BallieIcon";
+import { VStack } from "../Stack";
+import TabType from "../../../types/TabType";
 
 interface BallieMenuModalProps extends HTMLAttributes<HTMLDivElement> {
   show: boolean;

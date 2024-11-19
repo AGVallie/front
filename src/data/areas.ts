@@ -8,6 +8,7 @@ const areas: AreaType[] = [
     color: "orange-500",
     y: -24,
     x: 64,
+    name: "주황색 방",
     outlets: [
       {
         id: 0,
@@ -57,6 +58,7 @@ const areas: AreaType[] = [
         id: 1,
         name: "침대 옆 멀티탭",
         createdAt: new Date(),
+        isOn: true,
         x: 0,
         y: 0,
         angle: 0,
@@ -73,7 +75,7 @@ const areas: AreaType[] = [
             riskLevel: "0",
             color: "bg-white",
             shape: "rounded-full w-8 h-6",
-            isOn: true,
+            isOn: false,
           },
           {
             id: 1,

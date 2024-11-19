@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
 import AreaType from "../../types/AreaType";
-import { VStack } from "../../components/common/Stack";
+import { VStack } from "../common/Stack";
 
 interface SSAFYMapProps extends HTMLAttributes<HTMLDivElement> {
   areas: AreaType[];
@@ -11,12 +11,6 @@ function SSAFYMap({ areas, onAreaSelect, ...props }: SSAFYMapProps) {
   return (
     <div {...props}>
       {areas.map((area, idx) => {
-        // const onCount: number = area.outlets.reduce((prev, cur) => {
-        //   if (!cur.hasMainSwitch || cur.isOn) return prev + 1;
-        //   else return prev;
-        // }, 0);
-        // const offCount = area.outlets.length - onCount;
-
         return (
           <VStack
             className="absolute items-center !gap-[0.05rem]"
@@ -30,22 +24,6 @@ function SSAFYMap({ areas, onAreaSelect, ...props }: SSAFYMapProps) {
                 e.stopPropagation();
               }}
             />
-            {/* {area.outlets.length > 0 && (
-              <span className="px-1 shadow rounded-full z-20 leading-6 bg-white text-sm font-bold text-nowrap text-center">
-                {onCount > 0 && (
-                  <>
-                    <span className="text-red-500">■</span>
-                    <span>{onCount} </span>
-                  </>
-                )}
-                {offCount > 0 && (
-                  <>
-                    <span className="text-red-900">■</span>
-                    <span>{offCount}</span>
-                  </>
-                )}
-              </span>
-            )} */}
           </VStack>
         );
       })}

@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { PropsWithChildren } from "react";
 import { useState } from "react";
 import { CommunicationBlockContext } from "../hooks/useCommunicationBlock";

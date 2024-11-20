@@ -74,12 +74,12 @@ function Modal(modalProps: ModalProps) {
         {/* 백드롭 눌러서 끄기 */}
         <button className="w-full h-full" onClick={onBackdropClick} />
         {/* 스테이터스바 */}
-        {!hideBackDrop && (
+        {/* {!hideBackDrop && (
           <StatusBar
             className="hidden sm:flex absolute top-0 pointer-events-none bg-transparent"
             white
           />
-        )}
+        )} */}
         {/* 모달 */}
         <div className={modalClassName} {...props}>
           {xButton && (

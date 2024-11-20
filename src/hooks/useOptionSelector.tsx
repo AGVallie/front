@@ -5,9 +5,11 @@ import useToggle from "./useToggle";
 
 function useOptionSelector<T>(
   options: { label?: string; value: T; color?: string }[],
-  onSelect: (newState: T) => void
+  onSelect?: (newState: T) => void
 ) {
   const [showOptionSelector, toggleShowOptionSelector] = useToggle(false);
+  if (!onSelect)
+    return { optionSelector: null, toggleShowOptionSelector: () => {} };
   const selectOption = (newState: T) => {
     onSelect(newState);
     toggleShowOptionSelector();
@@ -16,7 +18,7 @@ function useOptionSelector<T>(
     <Modal
       show={showOptionSelector}
       onClose={toggleShowOptionSelector}
-      className="bottom-0 !bg-transparent delay-0 w-full !p-3"
+      className="bottom-8 !bg-transparent delay-0 w-full !p-3"
       xButton={false}
     >
       {/* 옵션 리스트 */}

@@ -6,10 +6,39 @@ import to12HourFormat from "../../utils/to12HourFormat";
 import cn from "../../utils/cn";
 import BallieIcon from "../../components/icons/BallieIcon";
 import Outlet from "../../components/common/Outlet";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { io } from "socket.io-client";
+import useScroll from "../../hooks/useScroll";
+import { flushSync } from "react-dom";
 
 export function BallieChat() {
+  const [messages, setMessages] = useState<MessageType[]>([]);
+  const { scrollRef, scrollTo } = useScroll();
+  const socket = io("http://70.12.107.165:3000"); // 서버 주소
+  useEffect(() => {
+    // 서버로부터 'chat message' 이벤트를 수신하고 메시지를 상태에 추가
+    socket.on("chat message", (msg) => {
+      console.log("Received message:", msg); // 콘솔에 메시지 출력
+      const newMessage: MessageType = {
+        id: new Date().getMilliseconds(),
+        createdAt: new Date(),
+        isUser: msg.isUser,
+        text: msg.text,
+      };
+      setMessages((prevMessages) => [...prevMessages, newMessage]); // 상태 업데이트하여 메시지 표시
+    });
+
+    // 컴포넌트가 unmount 될 때 연결 해제
+    return () => {
+      socket.off("chat message"); // 이벤트 리스너 제거
+    };
+  }, []);
+
+  useEffect(() => {
+    scrollTo(2147483647);
+  }, [messages]);
   return (
-    <VStack className="gap-3">
+    <VStack className="gap-3 h-[40rem] overflow-y-auto pb-40" ref={scrollRef}>
       {messages.map((message) => (
         <ChatBubble
           key={`message-${message.id}`}
@@ -35,9 +64,9 @@ function ChatBubble({ message, className }: ChatBubbleProps) {
       <VStack>
         {message.text && (
           <Tile
-            className={`!w-fit max-w-64 ${message.isUser ? "!bg-blue-500 text-white" : ""}`}
+            className={`!w-fit max-w-64 ${message.isUser ? "!bg-blue-500 text-white" : "bg-yellow-300"}`}
           >
-            <span>{message.text}</span>
+            <span className="whitespace-pre-wrap">{message.text}</span>
           </Tile>
         )}
         {message.image && (
@@ -95,7 +124,7 @@ const messages: MessageType[] = [
           outletId: 0,
           position: 0,
           createdAt: new Date(),
-          riskLevel: "0",
+          riskLevel: "하",
           color: "bg-white",
           shape: "rounded-full w-8 h-6",
           isOn: true,
@@ -105,7 +134,7 @@ const messages: MessageType[] = [
           outletId: 0,
           position: 2,
           createdAt: new Date(),
-          riskLevel: "0",
+          riskLevel: "하",
           color: "bg-pink-300",
           shape: "rounded-md w-8 h-6",
           isOn: true,
@@ -115,7 +144,7 @@ const messages: MessageType[] = [
           outletId: 0,
           position: 3,
           createdAt: new Date(),
-          riskLevel: "0",
+          riskLevel: "상",
           color: "bg-gray-600",
           shape: "rounded-full w-8 h-4",
           isOn: true,

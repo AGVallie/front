@@ -8,6 +8,7 @@ export default {
       },
       width: {
         iPhone: "390px",
+        89.5: "22.375rem",
       },
       height: {
         iPhone: "844px",

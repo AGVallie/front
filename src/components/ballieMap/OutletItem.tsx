@@ -1,5 +1,6 @@
 import useSheet from "../../hooks/useSheet";
 import OutletType from "../../types/OutletType";
+import uuid from "../../utils/uuid";
 import IconButton from "../common/IconButton";
 import Outlet from "../common/Outlet";
 import { VStack, HStack, Spacer } from "../common/Stack";
@@ -11,7 +12,8 @@ interface OutletItemProps {
 
 function OutletItem({ outlet }: OutletItemProps) {
   const { triggerSheet } = useSheet();
-  const showOutletDetail = () => triggerSheet(<OutletDetail outlet={outlet} />);
+  const showOutletDetail = () =>
+    triggerSheet(<OutletDetail key={uuid()} outlet={outlet} />);
   return (
     <>
       <VStack className="w-full">

@@ -13,6 +13,7 @@ type OutletType = {
   ports: PortType[];
   name?: string;
   isOn?: boolean;
+  checkedAt?: Date;
 };
 
 export default OutletType;

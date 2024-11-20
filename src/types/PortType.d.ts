@@ -1,11 +1,9 @@
-import { IconType } from "react-icons";
-
 type PortType = {
   id: number;
   outletId: number;
   position: number;
   createdAt: Date;
-  riskLevel: string;
+  riskLevel: "상" | "중" | "하";
   startedAt?: Date;
   endedAt?: Date;
   limitMin?: number;

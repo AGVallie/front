@@ -36,7 +36,7 @@ function Outlet({ outlet, showIndex = false, className }: OutletProps) {
           <VStack className="items-center">
             {/* 번호표 */}
             {showIndex && (
-              <div className="absolute flex items-center justify-center w-4 h-4 border-2 border-slate-500 rounded-full font-bold text-xs bg-white -translate-y-7">
+              <div className="absolute flex items-center justify-center w-4 h-4 border-2 border-slate-500 rounded-full font-bold text-xs bg-white -translate-y-6">
                 {idx + 1}
               </div>
             )}

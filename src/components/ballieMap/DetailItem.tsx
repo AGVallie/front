@@ -1,11 +1,13 @@
 import useOptionSelector from "../../hooks/useOptionSelector";
-import { HStack } from "../common/Stack";
+import OptionType from "../../types/OptionType";
+import { HStack, Spacer } from "../common/Stack";
+import { RxChevronRight } from "react-icons/rx";
 
 interface DetailItemProps<T> {
   title: string;
   state: T;
-  onSetState: (newState: T) => void;
-  options?: { label?: string; value: T; color?: string }[];
+  onSetState?: (newState: T) => void;
+  options?: OptionType<T>[];
 }
 
 function DetailItem<T>({
@@ -20,12 +22,22 @@ function DetailItem<T>({
   );
   return (
     <>
-      <HStack className="justify-between" onClick={toggleShowOptionSelector}>
+      <HStack
+        className="justify-between text-sm cursor-pointer p-1 items-center"
+        onClick={onSetState && toggleShowOptionSelector}
+      >
         <span className="font-bold"> {title}</span>
-        <span className="text-gray-500">
-          {options.filter((option) => option.value == state)[0].label ??
-            (state as string)}
-        </span>
+        <Spacer />
+        {onSetState ? (
+          <span className="text-gray-500">
+            {options.filter((option) => option.value == state)[0].label ??
+              (state as string)}
+          </span>
+        ) : (
+          <span className="text-gray-500 pr-3">{state as string}</span>
+        )}
+
+        {onSetState && <RxChevronRight color="gray" />}
       </HStack>
       {optionSelector}
     </>

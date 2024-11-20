@@ -1,9 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { IoAddSharp, IoEllipsisVertical } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
-import useScroll from "../../hooks/useScroll";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AreaOutletGroupTile from "../../components/ballieMap/AreaOutletGroupTile";
 import SSAFYMap from "../../components/ballieMap/SAFFYMap";
 import areas from "../../data/areas";
@@ -36,7 +34,7 @@ export function BallieMapView() {
     <VStack className="w-full h-full gap-3">
       {/* 보는 영역 */}
       <Tile
-        className={`items-center justify-center p-12 overflow-hidden shrink-0 ${selectedArea == -1 ? "" : "z-50"}`}
+        className="items-center justify-center p-12 overflow-hidden shrink-0"
         style={{
           height: `${mapSize}px`,
           transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",

@@ -5,6 +5,8 @@ import { HStack, Spacer, VStack } from "../common/Stack";
 import Tile from "../common/Tile";
 import IconButton from "../common/IconButton";
 import { RxChevronDown, RxChevronRight } from "react-icons/rx";
+import OutletType from "../../types/OutletType";
+import useSheet from "../../hooks/useSheet";
 
 interface AreaOutletGroupTileProps {
   isSelected: boolean;
@@ -20,7 +22,7 @@ function AreaOutletGroupTile({
   const borderClassName = isSelected
     ? `border-${area.color}`
     : "border-transparent";
-  const sizeClassName = isSelected ? "w-[22.4rem] z-10" : " h-16";
+  const sizeClassName = isSelected ? "!pt-2 w-89.5 z-10" : "h-16";
   const oddClassName =
     isSelected && area.id & 1 ? "-translate-x-[11.6rem]" : "";
   const processedClassName = cn(
@@ -35,10 +37,15 @@ function AreaOutletGroupTile({
   }, 0);
 
   return (
-    <Tile className={processedClassName}>
-      <VStack className="p-2 h-full justify-center !gap-0">
+    <Tile
+      className={processedClassName}
+      onClick={() => {
+        if (!isSelected) onClick();
+      }}
+    >
+      <VStack className="h-full justify-center !gap-0">
         {/* 제목 */}
-        <HStack className="items-center" onClick={onClick}>
+        <HStack className="items-center px-2" onClick={onClick}>
           <VStack>
             <HStack className="items-center">
               <div className={`w-2 h-2 rounded-full bg-${area.color}`} />
@@ -62,21 +69,7 @@ function AreaOutletGroupTile({
           {area.outlets.length ? (
             <VStack className="px-4 pt-4 pb-8 items-start gap-8">
               {area.outlets.map((outlet) => (
-                <VStack className="w-full">
-                  <HStack className="items-center">
-                    <span className="text-sm font-bold">
-                      {outlet.name ?? `멀티탭 #${outlet.id}`}
-                    </span>
-                  </HStack>
-                  <HStack className="w-full items-center">
-                    <Outlet
-                      key={`outlet-${area.id}-${outlet.id}`}
-                      outlet={outlet}
-                    />
-                    <Spacer />
-                    <IconButton iconType={"rchevron"} />
-                  </HStack>
-                </VStack>
+                <OutletItem key={`outlet-${outlet.id}`} outlet={outlet} />
               ))}
             </VStack>
           ) : (
@@ -90,6 +83,54 @@ function AreaOutletGroupTile({
         </div>
       </VStack>
     </Tile>
+  );
+}
+
+interface OutletItemProps {
+  outlet: OutletType;
+}
+
+function OutletItem({ outlet }: OutletItemProps) {
+  const { triggerSheet } = useSheet();
+  const showOutletDetail = () => triggerSheet(<OutletDetail outlet={outlet} />);
+  return (
+    <>
+      <VStack className="w-full">
+        <HStack className="items-center">
+          <span className="text-sm font-bold">
+            {outlet.name ?? `멀티탭 #${outlet.id}`}
+          </span>
+        </HStack>
+        <HStack className="w-full items-center">
+          <Outlet outlet={outlet} />
+          <Spacer />
+          <IconButton iconType={"rchevron"} onClick={showOutletDetail} />
+        </HStack>
+      </VStack>
+    </>
+  );
+}
+
+interface OutletDetailProps {
+  outlet: OutletType;
+}
+
+function OutletDetail({ outlet }: OutletDetailProps) {
+  return (
+    <VStack className="items-center gap-4">
+      <Outlet outlet={outlet} showIndex />
+      <Tile className="bg-white">
+        <span className="font-bold text-center">
+          {outlet.name ?? `멀티탭 #${outlet.id}`}
+        </span>
+      </Tile>
+      {Array.from({ length: outlet.portCount }).map((_, idx) => (
+        <VStack className="w-full">
+          <span className="text-lg font-bold">{`${idx + 1}번 포트`}</span>
+          <Tile className="bg-white">sdf</Tile>
+        </VStack>
+      ))}
+    </VStack>
   );
 }
 

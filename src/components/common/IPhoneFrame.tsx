@@ -11,7 +11,8 @@ function IPhoneFrame({
   const containerClassName = "w-full flex flex-col justify-center items-center";
   const baseClassName = `
     relative w-iPhone h-iPhone shadowed iPhone:mt-2 iPhone:rounded-[2rem]
-    iPhone:border-2 border-black items-center !gap-0 box-content overflow-hidden`;
+    iPhone:border-2 border-black items-center !gap-0 box-content overflow-hidden
+    bg-black`;
   const processedClassName = cn(baseClassName, className);
   return (
     <div className={containerClassName}>

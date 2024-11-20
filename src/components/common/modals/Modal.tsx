@@ -44,16 +44,16 @@ function Modal(modalProps: ModalProps) {
   };
 
   // 모달 클래스네임
-  const modalBaseClassName = "absolute p-6 h-fit transition-all delay-100";
+  const modalBaseClassName = "absolute p-6 h-fit transition-all";
   const modalTypeClassName = {
-    modal: "shadowed rounded-3xl w-fit m-4",
-    sheet: "bottom-0 w-full rounded-t-3xl",
+    modal: "shadowed rounded-3xl w-fit m-4 bg-white delay-100",
+    sheet: "bottom-0 w-full rounded-t-3xl bg-gray-50 duration-300",
   }[modalType];
   const modalShowClassName = {
     modal: show ? "opacity-100" : "translate-y-10 opacity-0",
-    sheet: show ? "opacity-100" : "translate-y-20 opacity-0",
+    sheet: show ? "" : "translate-y-full",
   }[modalType];
-  const modalDarkClassName = dark ? "bg-dark" : "bg-white";
+  const modalDarkClassName = dark ? "bg-dark" : "";
   const modalClassName = cn(
     modalBaseClassName,
     modalTypeClassName,

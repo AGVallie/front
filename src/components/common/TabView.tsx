@@ -18,37 +18,36 @@ function TabView({ tabs, className, ...props }: TabViewProps) {
     className
   );
 
-  const tabBaseClassName = "absolute min-h-full transition-opacity";
+  const tabBaseClassName = "absolute h-full transition-opacity";
 
   return (
     <VStack className={processedClassName} {...props}>
-      <div className="relative flex-grow">
-        {tabs.map((tab) => {
-          const tabShowClassName =
-            curTab == tab.id
-              ? "ease-out"
-              : "ease-in opacity-0 pointer-events-none";
-          const tabClassName = cn(tabShowClassName, tabBaseClassName);
-          return (
-            <Page
-              key={tab.id}
-              title={tab.title}
-              white={!tab.backgroundColor}
-              transparent={tab.backgroundColor as boolean | undefined}
-              hideTitle={tab.hideTitle}
-              className={tabClassName}
-              navigationBar={tab.navigationBar}
-            >
-              <tab.page />
-            </Page>
-          );
-        })}
-      </div>
+      {tabs.map((tab) => {
+        const tabShowClassName =
+          curTab == tab.id
+            ? "ease-out"
+            : "ease-in opacity-0 pointer-events-none";
+        const tabClassName = cn(tabShowClassName, tabBaseClassName);
+        return (
+          <Page
+            key={tab.id}
+            title={tab.title}
+            white={!tab.backgroundColor}
+            transparent={tab.backgroundColor as boolean | undefined}
+            hideTitle={tab.hideTitle}
+            className={tabClassName}
+            navigationBar={tab.navigationBar}
+          >
+            <tab.page />
+          </Page>
+        );
+      })}
       <TabBar
         white={!tabs[curTab].secondaryColor}
         curTab={curTab}
         onTabSelect={setTab}
         tabs={tabs}
+        className="absolute bottom-0"
       />
     </VStack>
   );

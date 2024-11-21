@@ -12,11 +12,11 @@ function useScroll() {
     }
   };
 
-  const scrollTo = (top: number) => {
+  const scrollTo = (top: number, behavior?: ScrollBehavior) => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({
         top: top,
-        behavior: "smooth",
+        behavior: behavior,
       });
     }
   };

@@ -1,162 +1,138 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { IoSearch } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
-import MessageType from "../../types/MessageType";
-import Tile from "../../components/common/Tile";
-import to12HourFormat from "../../utils/to12HourFormat";
-import cn from "../../utils/cn";
-import BallieIcon from "../../components/icons/BallieIcon";
-import Outlet from "../../components/common/Outlet";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { io } from "socket.io-client";
+import MessageType, { MessageDTO } from "../../types/MessageType";
+import { useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
 import useScroll from "../../hooks/useScroll";
-import { flushSync } from "react-dom";
+import ChatBubble from "../../components/ballieChat/ChatBubble";
+import uuid from "../../utils/uuid";
+import { convertMessageDTOToMessageType } from "../../utils/typeConverter";
+import useNavigation from "../../hooks/useNavigation";
+import { BsChevronLeft } from "react-icons/bs";
+import Tile from "../../components/common/Tile";
+import BallieIcon from "../../components/icons/BallieIcon";
+
+const chatServerURL: string = import.meta.env.VITE_CHAT_SERVER_URL;
 
 export function BallieChat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
+  const [socket, setSocket] = useState<Socket>();
+  const [draft, setDraft] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const { scrollRef, scrollTo } = useScroll();
-  const socket = io("http://70.12.107.165:3000"); // 서버 주소
+  const [isFocused, setIsFocused] = useState<boolean>(false); // focus 상태 관리
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [first, setFirst] = useState(false);
+
+  const submit = () => {
+    if (!socket) return;
+    const message: MessageDTO = {
+      message_id: 0,
+      message_is_user: true,
+      message_text: draft,
+    };
+    setDraft("");
+    setIsWaiting(true);
+    socket.emit("chat message", message);
+  };
+
   useEffect(() => {
-    // 서버로부터 'chat message' 이벤트를 수신하고 메시지를 상태에 추가
-    socket.on("chat message", (msg) => {
-      console.log("Received message:", msg); // 콘솔에 메시지 출력
-      const newMessage: MessageType = {
-        id: new Date().getMilliseconds(),
-        createdAt: new Date(),
-        isUser: msg.isUser,
-        text: msg.text,
-      };
+    const socketInstance = io(chatServerURL);
+    socketInstance.on("chat history", (messages: MessageDTO[]) => {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        ...messages.map(convertMessageDTOToMessageType),
+      ]);
+      socketInstance.off("chat history");
+    });
+    socketInstance.on("chat message", (msg: MessageDTO) => {
+      console.log(msg);
+      const newMessage = convertMessageDTOToMessageType(msg);
+      if (!newMessage.isUser) {
+        setIsWaiting(false);
+      }
+
       setMessages((prevMessages) => [...prevMessages, newMessage]); // 상태 업데이트하여 메시지 표시
     });
-
-    // 컴포넌트가 unmount 될 때 연결 해제
+    setSocket(socketInstance);
     return () => {
-      socket.off("chat message"); // 이벤트 리스너 제거
+      socketInstance.off("chat message");
+      socketInstance.off("chat history");
+      socketInstance.close();
     };
   }, []);
 
   useEffect(() => {
-    scrollTo(2147483647);
-  }, [messages]);
+    if (!first) {
+      setFirst(true);
+      return;
+    }
+    if (!isWaiting && inputRef.current) inputRef.current.focus();
+  }, [isWaiting]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      scrollTo(2147483647, "smooth");
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [messages, isFocused]);
+
   return (
-    <VStack className="gap-3 h-[40rem] overflow-y-auto pb-40" ref={scrollRef}>
-      {messages.map((message) => (
-        <ChatBubble
-          key={`message-${message.id}`}
-          message={message}
-        ></ChatBubble>
-      ))}
+    <VStack className="pt-12 h-full">
+      <BallieChatNavigationBar />
+      <VStack
+        className="flex-grow 
+        gap-3 overflow-y-scroll px-3 pb-2"
+        ref={scrollRef}
+      >
+        {messages.map((message) => (
+          <ChatBubble key={`message-${uuid()}`} message={message}></ChatBubble>
+        ))}
+        {isWaiting && (
+          <HStack className="gap-2">
+            <BallieIcon className="w-8 h-8" />
+            <Tile className="!w-16 items-center bg-yellow-300">
+              <HStack>
+                <div className="w-1.5 h-1.5 rounded-full bg-gray-500 animate-[bounce2_1s_infinite_000ms]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-gray-500 animate-[bounce2_1s_infinite_100ms]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-gray-500 animate-[bounce2_1s_infinite_200ms]" />
+              </HStack>
+            </Tile>
+          </HStack>
+        )}
+      </VStack>
+      <VStack className={`!gap-0 bg-gray-50`}>
+        <HStack className="w-full justify-center items-center p-1">
+          <input
+            className="bg-gray-200 rounded-full p-2 w-72"
+            onChange={(e) => setDraft(e.currentTarget.value)}
+            placeholder="메시지 입력"
+            value={draft}
+            disabled={isWaiting}
+            ref={inputRef}
+            onFocus={() => setIsFocused(true)} // input이 focus되면 isFocused를 true로 설정
+            onBlur={() => setIsFocused(false)} // input이 blur되면 isFocused를 false로 설정
+            onKeyDown={(e) => {
+              if (e.key === "Enter") submit();
+            }}
+          />
+        </HStack>
+        <div className={`transition-all ${isFocused ? "h-56" : "h-0"}`}>
+          <img className="object-fill" src="/images/main/keyboard.jpg" />
+        </div>
+      </VStack>
     </VStack>
   );
 }
 
-interface ChatBubbleProps {
-  message: MessageType;
-  className?: string;
-}
-
-function ChatBubble({ message, className }: ChatBubbleProps) {
-  const baseClassName = "gap-2";
-  const isUserClassName = message.isUser ? "flex-row-reverse" : "";
-  const processedClassName = cn(baseClassName, isUserClassName, className);
-  return (
-    <HStack className={processedClassName}>
-      {!message.isUser && <BallieIcon className="w-8 h-8" />}
-      <VStack>
-        {message.text && (
-          <Tile
-            className={`!w-fit max-w-64 ${message.isUser ? "!bg-blue-500 text-white" : "bg-yellow-300"}`}
-          >
-            <span className="whitespace-pre-wrap">{message.text}</span>
-          </Tile>
-        )}
-        {message.image && (
-          <Tile className="!p-0 overflow-hidden max-w-64">
-            <img src={message.image} />
-          </Tile>
-        )}
-        {message.outlet && <Outlet outlet={message.outlet} />}
-      </VStack>
-      <span className="text-xs font-bold self-end text-nowrap">
-        {to12HourFormat(message.createdAt)}
-      </span>
-    </HStack>
-  );
-}
-
-const messages: MessageType[] = [
-  {
-    id: 0,
-    createdAt: new Date(),
-    isUser: false,
-    text: "Now I'm checking up on Copper.",
-  },
-  {
-    id: 1,
-    createdAt: new Date(),
-    isUser: false,
-    image: "images/etc/dog.png",
-    text: "'Hi daddy.' Copper says. ",
-  },
-  {
-    id: 2,
-    createdAt: new Date(),
-    isUser: true,
-    text: "오냐",
-  },
-  {
-    id: 3,
-    createdAt: new Date(),
-    isUser: false,
-    text: "거실의 멀티탭 #1 현황입니다.",
-    outlet: {
-      id: 0,
-      createdAt: new Date(),
-      x: 0,
-      y: 0,
-      angle: 45,
-      hasMainSwitch: true,
-      hasIndividualSwitch: false,
-      color: "bg-white",
-      portCount: 4,
-      ports: [
-        {
-          id: 0,
-          outletId: 0,
-          position: 0,
-          createdAt: new Date(),
-          riskLevel: "하",
-          color: "bg-white",
-          shape: "rounded-full w-8 h-6",
-          isOn: true,
-        },
-        {
-          id: 1,
-          outletId: 0,
-          position: 2,
-          createdAt: new Date(),
-          riskLevel: "하",
-          color: "bg-pink-300",
-          shape: "rounded-md w-8 h-6",
-          isOn: true,
-        },
-        {
-          id: 2,
-          outletId: 0,
-          position: 3,
-          createdAt: new Date(),
-          riskLevel: "상",
-          color: "bg-gray-600",
-          shape: "rounded-full w-8 h-4",
-          isOn: true,
-        },
-      ],
-    },
-  },
-];
-
 export function BallieChatNavigationBar() {
+  const { back } = useNavigation();
   return (
     <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
+      <button onClick={back}>
+        <BsChevronLeft />
+      </button>
       <span className="font-bold">Ballie</span>
       <HStack className="text-xs font-bold gap-4">
         <HStack className="items-center">

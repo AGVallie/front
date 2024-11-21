@@ -1,7 +1,7 @@
 import IPhoneFrame from "../components/common/IPhoneFrame";
 import Modal from "../components/common/modals/Modal";
+import NavigationStack from "../components/common/navigations/NavigationStack";
 import StatusBar from "../components/common/StatusBar";
-import NavigationStack from "../components/NavigationStack";
 import { NavigationProvider } from "../contexts/NavigationProvider";
 import useSheet from "../hooks/useSheet";
 function IPhoneDemo() {
@@ -21,7 +21,7 @@ function IPhoneDemo() {
         modalType="sheet"
         show={showSheet}
         onClose={closeSheet}
-        className="h-[95%]"
+        className="!h-[95%]"
       >
         {sheetContent}
       </Modal>

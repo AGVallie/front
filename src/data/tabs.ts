@@ -10,19 +10,18 @@ import {
 import { PiPlayCircleFill, PiPlayCircle } from "react-icons/pi";
 import { RiEyeCloseFill, RiEye2Line } from "react-icons/ri";
 import {
-  BallieChat,
-  BallieChatNavigationBar,
-} from "../pages/ballie/BallieChat";
-import {
   BallieMapView,
   BallieMapViewNavigationBar,
 } from "../pages/ballie/BallieMapView";
 import { Bookmarks, BookmarksNavigationBar } from "../pages/main/Bookmarks";
 import { Devices, DevicesNavigationBar } from "../pages/main/Devices";
 import { Menu, MenuNavigationBar } from "../pages/main/Menu";
-import { MqttDemo, MqttDemoNavigationBar } from "../pages/main/MqttDemo";
 import { Routine, RoutineNavigationBar } from "../pages/main/Routine";
 import TabType from "../types/TabType";
+import {
+  BallieLens,
+  BallieLensNavigationBar,
+} from "../pages/ballie/BallieLens";
 
 const tabs: TabType[] = [
   {
@@ -64,8 +63,8 @@ const tabs: TabType[] = [
     title: "볼리 챗",
     iconSelected: IoChatbubbleEllipses,
     icon: IoChatbubbleEllipsesOutline,
-    page: BallieChat,
-    navigationBar: BallieChatNavigationBar,
+    page: () => null as unknown as JSX.Element,
+    navigationBar: () => null as unknown as JSX.Element,
     hideTitle: true,
     backgroundColor: "transparent",
   },
@@ -74,8 +73,8 @@ const tabs: TabType[] = [
     title: "볼리 렌즈",
     iconSelected: RiEyeCloseFill,
     icon: RiEye2Line,
-    page: MqttDemo,
-    navigationBar: MqttDemoNavigationBar,
+    page: BallieLens,
+    navigationBar: BallieLensNavigationBar,
   },
   {
     id: 6,

@@ -1,9 +1,11 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
 import cn from "../../../utils/cn";
 import StatusBar from "../StatusBar";
-import BallieIcon from "../../icons/BallieIcon";
+import BallieIcon from "../icons/BallieIcon";
 import { VStack } from "../Stack";
 import TabType from "../../../types/TabType";
+import NavigationLink from "../navigations/NavigationLink";
+import { BallieChat } from "../../../pages/ballie/BallieChat";
 
 interface BallieMenuModalProps extends HTMLAttributes<HTMLDivElement> {
   show: boolean;
@@ -75,12 +77,28 @@ function BallieMenuModal(modalProps: BallieMenuModalProps) {
                 key={tab.id}
                 degree={show ? i * 72 : i * 72 - 45}
               >
-                <button onClick={() => onTabSelect(tab)}>
-                  <VStack className="items-center">
-                    <Icon size="1.7rem" />
-                    <span className="text-[0.6rem]">{tab.title}</span>
-                  </VStack>
-                </button>
+                {tab.id == 4 ? (
+                  <button onClick={onClose}>
+                    <NavigationLink
+                      to={{
+                        backgroundColor: "bg-smartthings",
+                        page: <BallieChat />,
+                      }}
+                    >
+                      <VStack className="items-center">
+                        <Icon size="1.7rem" />
+                        <span className="text-[0.6rem]">{tab.title}</span>
+                      </VStack>
+                    </NavigationLink>
+                  </button>
+                ) : (
+                  <button onClick={() => onTabSelect(tab)}>
+                    <VStack className="items-center">
+                      <Icon size="1.7rem" />
+                      <span className="text-[0.6rem]">{tab.title}</span>
+                    </VStack>
+                  </button>
+                )}
               </RotationalMenuHolder>
             );
           })}

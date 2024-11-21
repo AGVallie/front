@@ -15,20 +15,18 @@ function OutletItem({ outlet }: OutletItemProps) {
   const showOutletDetail = () =>
     triggerSheet(<OutletDetail key={uuid()} outlet={outlet} />);
   return (
-    <>
-      <VStack className="w-full">
-        <HStack className="items-center">
-          <span className="text-sm font-bold">
-            {outlet.name ?? `멀티탭 #${outlet.id}`}
-          </span>
-        </HStack>
-        <HStack className="w-full items-center">
-          <Outlet outlet={outlet} />
-          <Spacer />
-          <IconButton iconType={"rchevron"} onClick={showOutletDetail} />
-        </HStack>
-      </VStack>
-    </>
+    <VStack className="w-full">
+      <HStack className="items-center">
+        <span className="text-sm font-bold">
+          {outlet.name ?? `멀티탭 #${outlet.id}`}
+        </span>
+      </HStack>
+      <HStack className="w-full items-center">
+        <Outlet outlet={outlet} />
+        <Spacer />
+        <IconButton iconType={"rchevron"} onClick={showOutletDetail} />
+      </HStack>
+    </VStack>
   );
 }
 

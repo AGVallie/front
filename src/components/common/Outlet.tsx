@@ -1,6 +1,7 @@
 import OutletType from "../../types/OutletType";
 import PortType from "../../types/PortType";
 import cn from "../../utils/cn";
+import uuid from "../../utils/uuid";
 import { HStack, VStack } from "./Stack";
 
 interface OutletProps {
@@ -33,7 +34,7 @@ function Outlet({ outlet, showIndex = false, className }: OutletProps) {
         const baseClassName = `absolute border-4 border-slate-400`;
         const processedClassName = cn(baseClassName, port?.color, port?.shape);
         return (
-          <VStack className="items-center">
+          <VStack className="items-center" key={`port-${uuid()}`}>
             {/* 번호표 */}
             {showIndex && (
               <div className="absolute flex items-center justify-center w-4 h-4 border-2 border-slate-500 rounded-full font-bold text-xs bg-white -translate-y-6">

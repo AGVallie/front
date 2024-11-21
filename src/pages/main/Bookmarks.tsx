@@ -9,7 +9,7 @@ import {
 import IconButton from "../../components/common/IconButton";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
-import SmartThingsIcon from "../../components/icons/SmartThingsIcon";
+import SmartThingsIcon from "../../components/common/icons/SmartThingsIcon";
 
 export function Bookmarks() {
   return (

@@ -15,11 +15,11 @@ function AreaOutletGroupTile({
   area,
   onClick,
 }: AreaOutletGroupTileProps) {
-  const baseClassName = "transition-all shrink-0 border-2 !p-0";
+  const baseClassName = "transition-all shrink-0 border-2 !p-0 overflow-hidden";
   const borderClassName = isSelected
     ? `border-${area.color}`
     : "border-transparent";
-  const sizeClassName = isSelected ? "!pt-2 w-89.5 z-10" : "h-16";
+  const sizeClassName = isSelected ? "!pt-2 !w-89.5 z-10" : "h-16";
   const oddClassName =
     isSelected && area.id & 1 ? "-translate-x-[11.6rem]" : "";
   const processedClassName = cn(

@@ -3,6 +3,24 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "../.storybook/*"],
   theme: {
     extend: {
+      animation: {
+        "bounce-2": "bounce2 0.5s infinite", // 커스텀 애니메이션 설정
+      },
+      keyframes: {
+        bounce2: {
+          "0%, 100%": {
+            transform: "translateY(-100%)",
+            animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)",
+          },
+          "50%": {
+            transform: "translateY(0)",
+            animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+          },
+        },
+      },
+      translate: {
+        iPhone: "390px",
+      },
       screens: {
         iPhone: "390px",
       },

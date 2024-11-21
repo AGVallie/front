@@ -3,10 +3,12 @@ import Route from "../types/Route";
 
 type NavigationContextProp = {
   path: Route[];
-  prevRoute: Route | null;
+  backTrigger: boolean;
   navigateTo: (newPath: Route) => void;
+  setBackTrigger: (state: boolean) => void;
   back: () => void;
   home: () => void;
+  popPath: () => void;
   setPath: (path: Route[]) => void;
 };
 
@@ -14,10 +16,12 @@ const BLANK_FUNC = () => {};
 
 export const NavigationContext = createContext<NavigationContextProp>({
   path: [],
-  prevRoute: null,
+  backTrigger: false,
   navigateTo: BLANK_FUNC,
+  setBackTrigger: BLANK_FUNC,
   back: BLANK_FUNC,
   home: BLANK_FUNC,
+  popPath: BLANK_FUNC,
   setPath: BLANK_FUNC,
 });
 

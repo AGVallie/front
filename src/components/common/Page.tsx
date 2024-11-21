@@ -1,5 +1,5 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./navigations/NavigationBar";
 import { VStack } from "./Stack";
 import cn from "../../utils/cn";
 import useScroll from "../../hooks/useScroll";

@@ -1,6 +1,6 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
-import cn from "../../utils/cn";
-import { VStack } from "./Stack";
+import cn from "../../../utils/cn";
+import { VStack } from "../Stack";
 interface NavigationBarProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   white?: boolean;

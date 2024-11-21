@@ -32,7 +32,7 @@ const reducer = (path: Route[], { type, payload }: PathAction): Route[] => {
 };
 
 export const NavigationProvider = ({ children }: PropsWithChildren) => {
-  const [prevRoute, setPrevPage] = useState<Route | null>(null);
+  const [backTrigger, setBackTrigger] = useState(false);
   const [path, dispatch] = useReducer(reducer, [
     //여기에 페이지 넣으면 초깃값 이걸로 적용됨
     // { page: <ExchangeRateMainPage /> },
@@ -40,7 +40,12 @@ export const NavigationProvider = ({ children }: PropsWithChildren) => {
   // 홈 버튼 누르면 네비게이션 스택 비워진 후 아래로 채워짐 => 메인페이지로 이동됨
   useEffect(() => {
     if (path.length == 0) {
-      setPath([{ page: <TabView tabs={tabs} /> }]);
+      setPath([
+        {
+          backgroundColor: "bg-smartthings",
+          page: <TabView tabs={tabs} />,
+        },
+      ]);
     }
   }, [path]);
 
@@ -48,9 +53,11 @@ export const NavigationProvider = ({ children }: PropsWithChildren) => {
     dispatch({ type: "push", payload: newPath });
   }, []);
   const back = useCallback(() => {
-    setPrevPage(path[path.length - 1]);
-    dispatch({ type: "pop", payload: null });
+    setBackTrigger(true);
   }, [path]);
+  const popPath = useCallback(() => {
+    dispatch({ type: "pop", payload: null });
+  }, []);
   const home = useCallback(() => {
     dispatch({ type: "clear", payload: null });
   }, []);
@@ -62,11 +69,13 @@ export const NavigationProvider = ({ children }: PropsWithChildren) => {
     <NavigationContext.Provider
       value={{
         path,
-        prevRoute,
+        backTrigger,
+        setBackTrigger,
         navigateTo,
         back,
         home,
         setPath,
+        popPath,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import cn from "../../utils/cn";
 import TabType from "../../types/TabType";
 import useToggle from "../../hooks/useToggle";
 import BallieMenuModal from "./modals/BallieMenuModal";
-import BallieIcon from "../icons/BallieIcon";
+import BallieIcon from "./icons/BallieIcon";
 
 interface TabBarProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;

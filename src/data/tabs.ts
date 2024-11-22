@@ -22,6 +22,10 @@ import {
   BallieLens,
   BallieLensNavigationBar,
 } from "../pages/ballie/BallieLens";
+import {
+  BallieRoutine,
+  BallieRoutineNavigationBar,
+} from "../pages/ballie/BallieRoutine";
 
 const tabs: TabType[] = [
   {
@@ -81,8 +85,8 @@ const tabs: TabType[] = [
     title: "볼리 루틴",
     iconSelected: AiFillAliwangwang,
     icon: AiOutlineAliwangwang,
-    page: Routine,
-    navigationBar: RoutineNavigationBar,
+    page: BallieRoutine,
+    navigationBar: BallieRoutineNavigationBar,
   },
   {
     id: 7,

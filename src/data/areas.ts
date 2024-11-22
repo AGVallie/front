@@ -13,8 +13,7 @@ const areas: AreaType[] = [
       {
         id: 0,
         createdAt: new Date(),
-        x: 0,
-        y: 0,
+
         angle: 45,
         hasMainSwitch: true,
         hasIndividualSwitch: false,
@@ -59,8 +58,7 @@ const areas: AreaType[] = [
         name: "침대 옆 멀티탭",
         createdAt: new Date(),
         isOn: true,
-        x: 0,
-        y: 0,
+
         angle: 0,
         hasMainSwitch: true,
         hasIndividualSwitch: true,
@@ -112,8 +110,7 @@ const areas: AreaType[] = [
       {
         id: 0,
         createdAt: new Date(),
-        x: 0,
-        y: 0,
+
         angle: 45,
         hasMainSwitch: true,
         hasIndividualSwitch: false,
@@ -157,8 +154,7 @@ const areas: AreaType[] = [
         id: 1,
         name: "침대 옆 멀티탭",
         createdAt: new Date(),
-        x: 0,
-        y: 0,
+
         angle: 0,
         hasMainSwitch: true,
         hasIndividualSwitch: true,

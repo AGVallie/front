@@ -3,8 +3,7 @@ import PortType from "./PortType.ts";
 type OutletType = {
   id: number;
   createdAt: Date;
-  x: number;
-  y: number;
+
   angle: number;
   hasMainSwitch: boolean;
   hasIndividualSwitch: boolean;

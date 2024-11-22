@@ -28,7 +28,7 @@ function AreaOutletGroupTile({
     oddClassName,
     borderClassName
   );
-  const onCount: number = area.outlets.reduce((prev, cur) => {
+  const onCount: number = area.outlets?.reduce((prev, cur) => {
     if (!cur.hasMainSwitch || cur.isOn) return prev + 1;
     else return prev;
   }, 0);

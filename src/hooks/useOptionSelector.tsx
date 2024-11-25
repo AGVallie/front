@@ -1,3 +1,4 @@
+import React from "react";
 import Modal from "../components/common/modals/Modal";
 import { VStack } from "../components/common/Stack";
 import uuid from "../utils/uuid";
@@ -24,7 +25,7 @@ function useOptionSelector<T>(
       {/* 옵션 리스트 */}
       <VStack className="backdrop-blur bg-white/70 !p-0 !rounded-lg gap-0 mb-2">
         {options.map((option, idx) => (
-          <>
+          <React.Fragment key={uuid()}>
             <button
               className={`text-center py-2.5 ${option.color ?? "text-blue-500"}`}
               key={uuid()}
@@ -36,7 +37,7 @@ function useOptionSelector<T>(
             {idx < options.length - 1 && (
               <div className="w-full border border-gray-400 border-t-0" />
             )}
-          </>
+          </React.Fragment>
         ))}
       </VStack>
       {/* 취소버튼 */}

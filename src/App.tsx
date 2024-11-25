@@ -1,11 +1,17 @@
+import AlertProvider from "./contexts/AlertProvider";
+import BallieMetaDataProvider from "./contexts/BallieMetaDataProvider";
 import SheetProvider from "./contexts/SheetProvider";
 import IPhoneDemo from "./pages/IPhoneDemo";
 
 function App() {
   return (
-    <SheetProvider>
-      <IPhoneDemo />
-    </SheetProvider>
+    <BallieMetaDataProvider>
+      <AlertProvider>
+        <SheetProvider>
+          <IPhoneDemo />
+        </SheetProvider>
+      </AlertProvider>
+    </BallieMetaDataProvider>
   );
 }
 

@@ -29,7 +29,8 @@ export function BallieChat() {
   const [isWaiting, setIsWaiting] = useState(false);
   const [first, setFirst] = useState(false);
   const [showMic, setShowMic] = useState(false);
-  const submit = () => {
+  const [idleTimer, setIdleTimer] = useState<NodeJS.Timeout>();
+  const submit = (draft: string) => {
     if (!socket) return;
     const message: MessageDTO = {
       message_id: 0,
@@ -82,6 +83,17 @@ export function BallieChat() {
     return () => clearTimeout(timer);
   }, [messages, isFocused]);
 
+  useEffect(() => {
+    clearTimeout(idleTimer);
+    const timer = setTimeout(() => {
+      if (draft && showMic) {
+        submit(draft);
+        setShowMic(false);
+      }
+    }, 3000);
+    setIdleTimer(timer);
+  }, [draft]);
+
   return (
     <VStack className="pt-12 h-full">
       <BallieChatNavigationBar />
@@ -126,12 +138,15 @@ export function BallieChat() {
             }}
             onBlur={() => setIsFocused(false)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") submit();
+              if (e.key === "Enter") submit(draft);
             }}
           />
           <button
             className="bg-gray-200 rounded-full p-2"
-            onClick={() => setShowMic((state) => !state)}
+            onClick={() => {
+              setDraft("");
+              setShowMic((state) => !state);
+            }}
           >
             <BsMicFill />
           </button>
@@ -139,19 +154,7 @@ export function BallieChat() {
         <div
           className={`transition-all ${isFocused || showMic ? "h-60" : "h-0"}`}
         >
-          {showMic ? (
-            <SpeechRecognizer
-              onDone={(text: string) => {
-                setDraft(text);
-                setShowMic(false);
-                setTimeout(() => {
-                  submit();
-                }, 200);
-              }}
-            />
-          ) : (
-            <></>
-          )}
+          {showMic ? <SpeechRecognizer onDone={setDraft} /> : <></>}
         </div>
       </VStack>
     </VStack>

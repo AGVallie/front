@@ -1,11 +1,14 @@
 import IPhoneFrame from "../components/common/IPhoneFrame";
+import AlertModal from "../components/common/modals/AlertModal";
 import Modal from "../components/common/modals/Modal";
 import NavigationStack from "../components/common/navigations/NavigationStack";
 import StatusBar from "../components/common/StatusBar";
 import { NavigationProvider } from "../contexts/NavigationProvider";
+import useAlert from "../hooks/useAlert";
 import useSheet from "../hooks/useSheet";
 function IPhoneDemo() {
   const { showSheet, sheetContent, closeSheet } = useSheet();
+  const { showAlert, alertProps, closeAlert } = useAlert();
   return (
     <IPhoneFrame>
       <StatusBar white />
@@ -25,6 +28,12 @@ function IPhoneDemo() {
       >
         {sheetContent}
       </Modal>
+      {/* 알림(전역) */}
+      <AlertModal
+        show={showAlert}
+        closeAlert={closeAlert}
+        alertProps={alertProps}
+      />
     </IPhoneFrame>
   );
 }

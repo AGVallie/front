@@ -78,7 +78,7 @@ function BallieMenuModal(modalProps: BallieMenuModalProps) {
                 degree={show ? i * 72 : i * 72 - 45}
               >
                 {tab.id == 4 ? (
-                  <button onClick={onClose}>
+                  <div onClick={onClose}>
                     <NavigationLink
                       to={{
                         backgroundColor: "bg-smartthings",
@@ -90,7 +90,7 @@ function BallieMenuModal(modalProps: BallieMenuModalProps) {
                         <span className="text-[0.6rem]">{tab.title}</span>
                       </VStack>
                     </NavigationLink>
-                  </button>
+                  </div>
                 ) : (
                   <button onClick={() => onTabSelect(tab)}>
                     <VStack className="items-center">

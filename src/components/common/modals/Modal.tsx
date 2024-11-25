@@ -1,14 +1,13 @@
 import { HTMLAttributes } from "react";
 import { IoClose } from "react-icons/io5";
 import cn from "../../../utils/cn";
-import StatusBar from "../StatusBar";
 
 interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   show: boolean;
   xButton?: boolean;
   dark?: boolean;
   hideBackDrop?: boolean;
-  modalType?: "modal" | "sheet";
+  modalType?: "modal" | "sheet" | "alert";
   backDrop?: boolean;
   onClose: () => void;
 }
@@ -44,14 +43,16 @@ function Modal(modalProps: ModalProps) {
   };
 
   // 모달 클래스네임
-  const modalBaseClassName = "absolute p-6 h-fit transition-all";
+  const modalBaseClassName = "absolute h-fit transition-all";
   const modalTypeClassName = {
-    modal: "shadowed rounded-3xl w-fit m-4 bg-white delay-100",
-    sheet: "bottom-0 w-full rounded-t-3xl bg-gray-50 duration-300",
+    modal: "p-6 shadowed rounded-3xl w-fit m-4 bg-white delay-100",
+    sheet: "p-6 bottom-0 w-full rounded-t-3xl bg-gray-50 duration-300",
+    alert: "shadowed rounded-lg w-fit m-4 delay-100 backdrop-blur bg-white/70",
   }[modalType];
   const modalShowClassName = {
     modal: show ? "opacity-100" : "translate-y-10 opacity-0",
     sheet: show ? "" : "translate-y-full",
+    alert: show ? "opacity-100" : "opacity-0 scale-110 delay-500",
   }[modalType];
   const modalDarkClassName = dark ? "bg-dark" : "";
   const modalClassName = cn(
@@ -73,13 +74,6 @@ function Modal(modalProps: ModalProps) {
       <div className={backdropClassName}>
         {/* 백드롭 눌러서 끄기 */}
         <button className="w-full h-full" onClick={onBackdropClick} />
-        {/* 스테이터스바 */}
-        {/* {!hideBackDrop && (
-          <StatusBar
-            className="hidden sm:flex absolute top-0 pointer-events-none bg-transparent"
-            white
-          />
-        )} */}
         {/* 모달 */}
         <div className={modalClassName} {...props}>
           {xButton && (

@@ -15,7 +15,6 @@ interface OutletDetailProps {
 }
 
 function OutletDetail({ outlet, onSave }: OutletDetailProps) {
-  console.log(outlet);
   const [name, setName] = useState<string | undefined>(outlet.name);
   const [ports, setPorts] = useState<PortType[]>([]);
   const changePort = (newPort: PortType) => {

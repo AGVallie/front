@@ -85,6 +85,8 @@ function ChatBubble({ message, className }: ChatBubbleProps) {
     );
   };
 
+  const minDiff = new Date() - message.createdAt;
+
   const baseClassName = "gap-2";
   const isUserClassName = message.isUser ? "flex-row-reverse" : "";
   const processedClassName = cn(baseClassName, isUserClassName, className);
@@ -103,11 +105,7 @@ function ChatBubble({ message, className }: ChatBubbleProps) {
                   outlet={message.outlet ?? outlet!}
                   className="self-center"
                 />
-                {saved ? (
-                  <Button disabled className="mt-2 self-center">
-                    저장됨
-                  </Button>
-                ) : (
+                {!saved && minDiff <= 180000 && (
                   <Button
                     className="mt-2 bg-yellow-500 self-center"
                     onClick={showOutletDetail}

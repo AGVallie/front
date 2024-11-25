@@ -1,4 +1,4 @@
-import { HTMLAttributes, PropsWithChildren } from "react";
+import { HTMLAttributes, PropsWithChildren, useEffect, useState } from "react";
 import cn from "../../../utils/cn";
 import StatusBar from "../StatusBar";
 import BallieIcon from "../icons/BallieIcon";
@@ -6,6 +6,8 @@ import { VStack } from "../Stack";
 import TabType from "../../../types/TabType";
 import NavigationLink from "../navigations/NavigationLink";
 import { BallieChat } from "../../../pages/ballie/BallieChat";
+import useMqtt from "../../../hooks/useMqtt";
+import useNavigation from "../../../hooks/useNavigation";
 
 interface BallieMenuModalProps extends HTMLAttributes<HTMLDivElement> {
   show: boolean;
@@ -29,6 +31,10 @@ function BallieMenuModal(modalProps: BallieMenuModalProps) {
     tabs,
     ...props
   } = modalProps;
+  const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
+  const { path } = useNavigation();
+  useMqtt({ "test/new-message": () => setHasNewMessage(true) });
+  useEffect(() => setHasNewMessage(false), [path]);
   // 백드롭 클래스네임
   const backdropBaseClassName =
     "absolute top-0 h-full sm:h-iPhone flex flex-col justify-center items-center left-0 w-iPhone z-40 sm:rounded-3xl transition-opacity overflow-hidden";
@@ -79,6 +85,9 @@ function BallieMenuModal(modalProps: BallieMenuModalProps) {
               >
                 {tab.id == 4 ? (
                   <div onClick={onClose}>
+                    {hasNewMessage && (
+                      <div className="absolute w-2 h-2 bg-red-500 rounded-full -translate-x-2" />
+                    )}
                     <NavigationLink
                       to={{
                         backgroundColor: "bg-smartthings",

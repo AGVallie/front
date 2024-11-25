@@ -1,10 +1,12 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import { HStack, VStack } from "./Stack";
 import cn from "../../utils/cn";
 import TabType from "../../types/TabType";
 import useToggle from "../../hooks/useToggle";
 import BallieMenuModal from "./modals/BallieMenuModal";
 import BallieIcon from "./icons/BallieIcon";
+import useMqtt from "../../hooks/useMqtt";
+import useNavigation from "../../hooks/useNavigation";
 
 interface TabBarProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -36,6 +38,11 @@ const TabBar = ({
     onTabSelect(tabId);
   };
 
+  const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
+  const { path } = useNavigation();
+  useMqtt({ "test/new-message": () => setHasNewMessage(true) });
+  useEffect(() => setHasNewMessage(false), [path]);
+
   return (
     <>
       <HStack className={processedClassName} {...props}>
@@ -64,6 +71,9 @@ const TabBar = ({
             <BallieIcon
               className={`w-8 h-8 ${white ? "" : "shadow-slate-400 shadow"}`}
             />
+            {hasNewMessage && (
+              <div className="absolute w-2 h-2 bg-red-500 rounded-full -translate-x-2" />
+            )}
             <span className="text-[0.6rem]">볼리</span>
           </VStack>
         </button>

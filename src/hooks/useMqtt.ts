@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 
 const mqttBrokerURL: string = import.meta.env.VITE_MQTT_BROKER_URL;
 
-const useMqtt = (handlers: { [topic: string]: (message: Buffer) => void }) => {
+const useMqtt = (handlers: {
+  [topic: string]: (message: Buffer | string) => void;
+}) => {
   const [client, setClient] = useState<mqtt.MqttClient | null>(null); // MQTT 클라이언트 상태
   // MQTT 클라이언트 초기화
   useEffect(() => {

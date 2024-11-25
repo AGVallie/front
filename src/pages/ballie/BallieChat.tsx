@@ -6,12 +6,16 @@ import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import useScroll from "../../hooks/useScroll";
 import ChatBubble from "../../components/ballieChat/ChatBubble";
-import uuid from "../../utils/uuid";
 import { convertMessageDTOToMessageType } from "../../utils/typeConverter";
 import useNavigation from "../../hooks/useNavigation";
-import { BsChevronLeft } from "react-icons/bs";
+import { BsChevronLeft, BsMicFill } from "react-icons/bs";
 import Tile from "../../components/common/Tile";
 import BallieIcon from "../../components/icons/BallieIcon";
+import useBallieMetaData from "../../hooks/useBallieMetaData";
+import { useFetch } from "../../hooks/useFetch";
+import { AreaDtoType } from "../../types/DTOs";
+import { getAllAreasURL } from "../../utils/urlFactory";
+import SpeechRecognizer from "../../components/ballieChat/SpeechRecognizer";
 
 const chatServerURL: string = import.meta.env.VITE_CHAT_SERVER_URL;
 
@@ -24,7 +28,7 @@ export function BallieChat() {
   const [isFocused, setIsFocused] = useState<boolean>(false); // focus 상태 관리
   const [isWaiting, setIsWaiting] = useState(false);
   const [first, setFirst] = useState(false);
-
+  const [showMic, setShowMic] = useState(false);
   const submit = () => {
     if (!socket) return;
     const message: MessageDTO = {
@@ -86,9 +90,14 @@ export function BallieChat() {
         gap-3 overflow-y-scroll px-3 pb-2"
         ref={scrollRef}
       >
-        {messages.map((message) => (
-          <ChatBubble key={`message-${uuid()}`} message={message}></ChatBubble>
-        ))}
+        {messages.map((message) => {
+          return (
+            <ChatBubble
+              key={`message-${message.id}`}
+              message={message}
+            ></ChatBubble>
+          );
+        })}
         {isWaiting && (
           <HStack className="gap-2">
             <BallieIcon className="w-8 h-8" />
@@ -111,15 +120,38 @@ export function BallieChat() {
             value={draft}
             disabled={isWaiting}
             ref={inputRef}
-            onFocus={() => setIsFocused(true)} // input이 focus되면 isFocused를 true로 설정
-            onBlur={() => setIsFocused(false)} // input이 blur되면 isFocused를 false로 설정
+            onFocus={() => {
+              setIsFocused(true);
+              setShowMic(false);
+            }}
+            onBlur={() => setIsFocused(false)}
             onKeyDown={(e) => {
               if (e.key === "Enter") submit();
             }}
           />
+          <button
+            className="bg-gray-200 rounded-full p-2"
+            onClick={() => setShowMic((state) => !state)}
+          >
+            <BsMicFill />
+          </button>
         </HStack>
-        <div className={`transition-all ${isFocused ? "h-56" : "h-0"}`}>
-          <img className="object-fill" src="/images/main/keyboard.jpg" />
+        <div
+          className={`transition-all ${isFocused || showMic ? "h-60" : "h-0"}`}
+        >
+          {showMic ? (
+            <SpeechRecognizer
+              onDone={(text: string) => {
+                setDraft(text);
+                setShowMic(false);
+                setTimeout(() => {
+                  submit();
+                }, 200);
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </VStack>
     </VStack>
@@ -127,6 +159,17 @@ export function BallieChat() {
 }
 
 export function BallieChatNavigationBar() {
+  const { data } = useFetch<null, AreaDtoType[]>(getAllAreasURL(), "GET");
+  const { curArea, curState } = useBallieMetaData();
+  const [curAreaName, setCurAreaName] = useState("");
+  useEffect(() => {
+    if (!data) return;
+    if (curArea == -1) return;
+    const newAreaName =
+      data.filter((area) => area.area_id == curArea)[0]?.area_name ??
+      `방 #${curArea}`;
+    setCurAreaName(newAreaName);
+  }, [data, curArea]);
   const { back } = useNavigation();
   return (
     <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
@@ -137,9 +180,8 @@ export function BallieChatNavigationBar() {
       <HStack className="text-xs font-bold gap-4">
         <HStack className="items-center">
           <div className="w-2 h-2 bg-yellow-500 rounded-full" />
-          <span className="text-yellow-500"> 충전 중 </span>
-          <span> </span>
-          <span className="text-gray-800"> 거실</span>
+          <span className="text-yellow-500"> {curState}</span>
+          <span className="text-gray-800"> {curAreaName}</span>
         </HStack>
       </HStack>
       <Spacer />

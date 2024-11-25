@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { IoAddSharp, IoEllipsisVertical } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
@@ -7,19 +8,24 @@ import SSAFYMap from "../../components/ballieMap/SAFFYMap";
 import Grid from "../../components/common/Grid";
 import { useFetch } from "../../hooks/useFetch";
 import AreaType from "../../types/AreaType";
-import { getAllAreasURL } from "../../utils/urlFactory";
+import { getAllAreasWithOutletsURL } from "../../utils/urlFactory";
 import { AreaDtoType } from "../../types/DTOs";
+import { areaDtoToAreaType } from "../../utils/typeConverter";
+import useNavigation from "../../hooks/useNavigation";
 
 const MAP_SCALE_FACTOR = 1.5;
 
 export function BallieMapView() {
-  const { data: areaDtos } = useFetch<null, AreaDtoType[]>(
-    getAllAreasURL(),
+  const { path } = useNavigation();
+  const { data: areaDtos, refetch } = useFetch<null, AreaDtoType[]>(
+    getAllAreasWithOutletsURL(),
     "GET"
   );
   const [areas, setAreas] = useState<AreaType[]>([]);
   const [selectedArea, setSelectedArea] = useState(-1);
   const mapSize = selectedArea == -1 ? 300 : 150;
+
+  const refetchMap = () => setTimeout(refetch, 500);
 
   const onMapClick = () => {
     setSelectedArea(-1);
@@ -31,44 +37,13 @@ export function BallieMapView() {
 
   useEffect(() => {
     if (!areaDtos) return;
-    const newAreas: AreaType[] = areaDtos.map((areaDto: AreaDtoType) => {
-      const newArea: AreaType = {
-        id: areaDto.area_id,
-        width: areaDto.area_width,
-        height: areaDto.area_height,
-        color: areaDto.area_color,
-        y: areaDto.area_top,
-        x: areaDto.area_left,
-        name: areaDto.area_name,
-        outlets: areaDto.outlets.map((outletDto) => ({
-          id: outletDto.outlet_id,
-          createdAt: outletDto.outlet_created_at,
-          angle: outletDto.outlet_angle,
-          hasMainSwitch: outletDto.outlet_has_main_switch == 1 ? true : false,
-          hasIndividualSwitch:
-            outletDto.outlet_has_main_switch == 1 ? true : false,
-          color: outletDto.outlet_color,
-          portCount: outletDto.outlet_port_count,
-          name: outletDto.outlet_name,
-          isOn: outletDto.outlet_is_on == 1 ? true : false,
-          checkedAt: outletDto.outlet_checked_at,
-          ports: outletDto.ports.map((portDto) => ({
-            id: portDto.port_id,
-            outletId: portDto.outlet_id,
-            position: portDto.port_position,
-            createdAt: portDto.port_created_at,
-            riskLevel: portDto.port_risk_level,
-            limitMin: portDto.port_limit_min,
-            color: portDto.port_color,
-            shape: portDto.port_shape,
-            isOn: portDto.port_is_on == 1 ? true : false,
-          })),
-        })),
-      };
-      return newArea;
-    });
+    const newAreas: AreaType[] = areaDtos.map(areaDtoToAreaType);
     setAreas(newAreas);
   }, [areaDtos]);
+  // 경로 바뀌면 리페치 (채팅창에서 업데이트될수도있음)
+  useEffect(() => {
+    if (path.length == 1) refetch();
+  }, [path]);
 
   if (!areas) return <></>;
 
@@ -81,7 +56,6 @@ export function BallieMapView() {
         : `${(-areas[selectedArea].x + 104) * MAP_SCALE_FACTOR}px ${(-areas[selectedArea].y + 104) * MAP_SCALE_FACTOR}px`,
     transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
   };
-
   return (
     <VStack className="w-full h-full gap-3">
       {/* 보는 영역 */}
@@ -107,6 +81,7 @@ export function BallieMapView() {
             area={area}
             isSelected={selectedArea === idx}
             onClick={() => onAreaSelect(idx)}
+            refetch={refetchMap}
           />
         ))}
       </Grid>

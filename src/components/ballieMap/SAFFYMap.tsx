@@ -1,20 +1,16 @@
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes } from "react";
 import AreaType from "../../types/AreaType";
 import { VStack } from "../common/Stack";
 import uuid from "../../utils/uuid";
-import useMqtt from "../../hooks/useMqtt";
 import BallieIcon from "../icons/BallieIcon";
+import useBallieMetaData from "../../hooks/useBallieMetaData";
 
 interface SSAFYMapProps extends HTMLAttributes<HTMLDivElement> {
   areas: AreaType[];
   onAreaSelect: (idx: number) => void;
 }
-const MQTT_POS_TOPIC = "test/pos";
 function SSAFYMap({ areas, onAreaSelect, ...props }: SSAFYMapProps) {
-  useMqtt({
-    [MQTT_POS_TOPIC]: (message) => setCurArea(+message.toString()),
-  });
-  const [curArea, setCurArea] = useState(0);
+  const { curArea, curState } = useBallieMetaData();
 
   return (
     <div {...props}>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-type FetchMethod = "GET" | "POST" | "PUT" | "DELETE";
+type FetchMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 // const {data, error, isLoading, trigger, abort } =  useFetchTrigger<RequestDto, ResponseDto>(uri, method)
 // uri와 method는 처음에 지정
@@ -19,24 +19,16 @@ export function useFetchTrigger<RequestDtoType, ResponseDtoType>(
 
   const abort = () => controller.abort();
 
-  const trigger = (requestData: RequestDtoType) => {
+  const trigger = (requestData?: RequestDtoType) => {
     if (isLoading) return;
     setIsLoading(true);
     const headers = { "Content-Type": "application/json" };
-    const body =
-      method === "POST" || method === "PUT" || method === "DELETE"
-        ? JSON.stringify(requestData)
-        : undefined;
+    const body = method === "GET" ? undefined : JSON.stringify(requestData);
     const { signal } = controller;
     (async () => {
       try {
         console.log(uri, method, body);
-        const res = await fetch(uri, {
-          method,
-          body,
-          signal,
-          headers,
-        });
+        const res = await fetch(uri, { method, headers, body, signal });
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const json = await res.json();
         console.log(json);

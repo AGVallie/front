@@ -9,11 +9,13 @@ interface AreaOutletGroupTileProps {
   isSelected: boolean;
   area: AreaType;
   onClick: () => void;
+  refetch?: () => void;
 }
 function AreaOutletGroupTile({
   isSelected,
   area,
   onClick,
+  refetch,
 }: AreaOutletGroupTileProps) {
   const baseClassName = "transition-all shrink-0 border-2 !p-0 overflow-hidden";
   const borderClassName = isSelected
@@ -66,7 +68,11 @@ function AreaOutletGroupTile({
           {area.outlets.length ? (
             <VStack className="px-4 pt-4 pb-8 items-start gap-8">
               {area.outlets.map((outlet) => (
-                <OutletItem key={`outlet-${outlet.id}`} outlet={outlet} />
+                <OutletItem
+                  key={`outlet-${outlet.id}`}
+                  outlet={outlet}
+                  refetch={refetch}
+                />
               ))}
             </VStack>
           ) : (

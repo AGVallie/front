@@ -38,3 +38,15 @@ export type PortDtoType = {
   port_shape: string;
   port_is_on: 1 | 0;
 };
+
+export type OutletRequestDtoType = {
+  outlet_id: number;
+  outlet_name?: string;
+};
+
+export type PortsRequestDtoType = {
+  port_id: number;
+  port_name?: string;
+  port_risk_level?: "상" | "중" | "하";
+  port_limit_min?: number;
+}[];

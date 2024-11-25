@@ -26,6 +26,7 @@ import {
   BallieRoutine,
   BallieRoutineNavigationBar,
 } from "../pages/ballie/BallieRoutine";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 
 const tabs: TabType[] = [
   {
@@ -90,13 +91,11 @@ const tabs: TabType[] = [
   },
   {
     id: 7,
-    title: "맵 뷰",
-    iconSelected: IoHome,
-    icon: IoHomeOutline,
-    page: BallieMapView,
-    navigationBar: BallieMapViewNavigationBar,
-    backgroundColor: "bg-gray-100",
-    secondaryColor: "black",
+    title: "진단",
+    iconSelected: HiMagnifyingGlass,
+    icon: HiMagnifyingGlass,
+    page: () => null as unknown as JSX.Element,
+    navigationBar: () => null as unknown as JSX.Element,
   },
   {
     id: 8,

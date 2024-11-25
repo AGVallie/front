@@ -16,7 +16,7 @@ const useMqtt = (handlers: {
       for (const topic of Object.keys(handlers)) {
         mqttClient.subscribe(topic, (err) => {
           if (err) {
-            console.error("Subscription failed", err);
+            // console.error("Subscription failed", err);
           }
         });
       }

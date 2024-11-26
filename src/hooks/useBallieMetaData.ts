@@ -1,12 +1,14 @@
 import { createContext, useContext } from "react";
 
 type BallieMetaDataContextProp = {
-  curArea: number;
+  curArea: string;
+  curAreaId: number;
   curState: string;
 };
 
 export const BallieMetaDataContext = createContext<BallieMetaDataContextProp>({
-  curArea: -1,
+  curArea: "",
+  curAreaId: -1,
   curState: "",
 });
 

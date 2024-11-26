@@ -70,8 +70,6 @@ const tabs: TabType[] = [
     icon: IoChatbubbleEllipsesOutline,
     page: () => null as unknown as JSX.Element,
     navigationBar: () => null as unknown as JSX.Element,
-    hideTitle: true,
-    backgroundColor: "transparent",
   },
   {
     id: 5,
@@ -80,6 +78,7 @@ const tabs: TabType[] = [
     icon: RiEye2Line,
     page: BallieLens,
     navigationBar: BallieLensNavigationBar,
+    hideTitle: true,
   },
   {
     id: 6,

@@ -10,8 +10,7 @@ interface SSAFYMapProps extends HTMLAttributes<HTMLDivElement> {
   onAreaSelect: (idx: number) => void;
 }
 function SSAFYMap({ areas, onAreaSelect, ...props }: SSAFYMapProps) {
-  const { curArea, curState } = useBallieMetaData();
-
+  const { curAreaId } = useBallieMetaData();
   return (
     <div {...props}>
       {areas.map((area, idx) => {
@@ -44,12 +43,14 @@ function SSAFYMap({ areas, onAreaSelect, ...props }: SSAFYMapProps) {
       </div>
       {/* 볼리 현재 위치 표시 */}
       <div
-        className="relative scale-50 z-10 transition-all pointer-events-none"
+        className="relative scale-50 z-10 transition-all duration-700 pointer-events-none"
         style={{
           top:
-            -248 + (areas.filter((area) => area.id === curArea)[0]?.y ?? -1000),
+            -248 +
+            (areas.filter((area) => area.id === curAreaId)[0]?.y ?? -1000),
           left:
-            -56 + (areas.filter((area) => area.id === curArea)[0]?.x ?? -1000),
+            -56 +
+            (areas.filter((area) => area.id === curAreaId)[0]?.x ?? -1000),
         }}
       >
         <BallieIcon className="absolute scale-50 animate-ping" />

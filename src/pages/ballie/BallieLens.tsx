@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { IoAddSharp, IoEllipsisVertical, IoHome } from "react-icons/io5";
-import { IoQrCodeOutline } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
 import useMqtt from "../../hooks/useMqtt";
@@ -12,7 +10,6 @@ const MQTT_CAM_TOPIC = "test/cam";
 
 export function BallieLens() {
   const [imageURL, setImageURL] = useState<string>("");
-  const { curState } = useBallieMetaData();
   const { sendMessage } = useMqtt({
     [MQTT_CAM_TOPIC]: (message) => setImageURL(message.toString()),
   });
@@ -20,9 +17,6 @@ export function BallieLens() {
 
   return (
     <VStack className="w-full h-full">
-      <HStack className="absolute p-2 items-center">
-        <span className="text-sm font-bold text-yellow-500"> {curState}</span>
-      </HStack>
       <VStack className="w-full gap-3">
         {/* 스트리밍 부분 */}
         <Tile className="font-bold !bg-gray-100 !p-0 overflow-hidden flex items-center justify-center h-72">
@@ -36,14 +30,18 @@ export function BallieLens() {
 }
 
 export function BallieLensNavigationBar() {
+  const { curArea, curState } = useBallieMetaData();
   return (
     <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
-      <IoQrCodeOutline />
-      <span className=""> 집(1)</span>
+      <span className="text-2xl font-bold">볼리 렌즈</span>
       <Spacer />
-      <IoHome />
-      <IoAddSharp size="1.5rem" />
-      <IoEllipsisVertical />
+      <HStack className="text-xs font-bold gap-4">
+        <HStack className="items-center">
+          <div className="w-2 h-2 bg-yellow-500 rounded-full" />
+          <span className="text-yellow-500"> {curState}</span>
+          <span className="text-gray-800"> {curArea}</span>
+        </HStack>
+      </HStack>
     </HStack>
   );
 }

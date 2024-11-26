@@ -56,15 +56,13 @@ export function BallieMapView() {
         : `${(-areas[selectedArea].x + 104) * MAP_SCALE_FACTOR}px ${(-areas[selectedArea].y + 104) * MAP_SCALE_FACTOR}px`,
     transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
   };
+
   return (
     <VStack className="w-full h-full gap-3">
       {/* 보는 영역 */}
       <Tile
-        className="items-center justify-center p-12 overflow-hidden shrink-0"
-        style={{
-          height: `${mapSize}px`,
-          transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
+        className="items-center justify-center p-12 overflow-hidden shrink-0 transition-all"
+        style={{ height: `${mapSize}px` }}
         onClick={onMapClick}
       >
         <SSAFYMap

@@ -76,7 +76,10 @@ function OutletDetail({ outlet, onSave }: OutletDetailProps) {
 
       {/* 인터렉션 영역 (스크롤) */}
       <span className="text-xs text-gray-500">
-        최근 점검 일시: {outlet.checkedAt?.toLocaleString() ?? "점검 이력 없음"}
+        최근 점검 일시:{" "}
+        {(outlet.checkedAt?.getFullYear() ?? 0) >= 2000
+          ? outlet.checkedAt?.toLocaleString()
+          : "점검 이력 없음"}
       </span>
       {ports.map((port) => (
         <VStack key={uuid()} className="w-full">

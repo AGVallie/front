@@ -36,12 +36,13 @@ export const areaDtoToAreaType = (areaDto: AreaDtoType): AreaType => ({
     createdAt: outletDto.outlet_created_at,
     angle: outletDto.outlet_angle,
     hasMainSwitch: outletDto.outlet_has_main_switch == 1 ? true : false,
-    hasIndividualSwitch: outletDto.outlet_has_main_switch == 1 ? true : false,
+    hasIndividualSwitch:
+      outletDto.outlet_has_individual_switch == 1 ? true : false,
     color: outletDto.outlet_color,
     portCount: outletDto.outlet_port_count,
     name: outletDto.outlet_name,
     isOn: outletDto.outlet_is_on == 1 ? true : false,
-    checkedAt: outletDto.outlet_checked_at,
+    checkedAt: new Date(outletDto.outlet_checked_at),
     ports: outletDto.ports.map((portDto) => ({
       id: portDto.port_id,
       outletId: portDto.outlet_id,
@@ -53,6 +54,7 @@ export const areaDtoToAreaType = (areaDto: AreaDtoType): AreaType => ({
       shape: portDto.port_shape,
       isOn: portDto.port_is_on == 1 ? true : false,
       name: portDto.port_name,
+      startedAt: new Date(portDto.port_started_at),
     })),
   })),
 });
@@ -64,12 +66,13 @@ export const outletDtoToOutletType = (
   createdAt: outletDto.outlet_created_at,
   angle: outletDto.outlet_angle,
   hasMainSwitch: outletDto.outlet_has_main_switch == 1 ? true : false,
-  hasIndividualSwitch: outletDto.outlet_has_main_switch == 1 ? true : false,
+  hasIndividualSwitch:
+    outletDto.outlet_has_individual_switch == 1 ? true : false,
   color: outletDto.outlet_color,
   portCount: outletDto.outlet_port_count,
   name: outletDto.outlet_name,
   isOn: outletDto.outlet_is_on == 1 ? true : false,
-  checkedAt: outletDto.outlet_checked_at,
+  checkedAt: new Date(outletDto.outlet_checked_at),
   ports: outletDto.ports.map((portDto) => ({
     id: portDto.port_id,
     outletId: portDto.outlet_id,
@@ -81,6 +84,7 @@ export const outletDtoToOutletType = (
     shape: portDto.port_shape,
     isOn: portDto.port_is_on == 1 ? true : false,
     name: portDto.port_name,
+    startedAt: new Date(portDto.port_started_at),
   })),
 });
 

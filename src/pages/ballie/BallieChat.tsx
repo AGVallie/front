@@ -162,17 +162,8 @@ export function BallieChat() {
 }
 
 export function BallieChatNavigationBar() {
-  const { data } = useFetch<null, AreaDtoType[]>(getAllAreasURL(), "GET");
   const { curArea, curState } = useBallieMetaData();
-  const [curAreaName, setCurAreaName] = useState("");
-  useEffect(() => {
-    if (!data) return;
-    if (curArea == -1) return;
-    const newAreaName =
-      data.filter((area) => area.area_id == curArea)[0]?.area_name ??
-      `방 #${curArea}`;
-    setCurAreaName(newAreaName);
-  }, [data, curArea]);
+
   const { back } = useNavigation();
   return (
     <HStack className="items-center py-2 pl-4 pr-6 w-full border-none gap-4">
@@ -184,7 +175,7 @@ export function BallieChatNavigationBar() {
         <HStack className="items-center">
           <div className="w-2 h-2 bg-yellow-500 rounded-full" />
           <span className="text-yellow-500"> {curState}</span>
-          <span className="text-gray-800"> {curAreaName}</span>
+          <span className="text-gray-800"> {curArea}</span>
         </HStack>
       </HStack>
       <Spacer />

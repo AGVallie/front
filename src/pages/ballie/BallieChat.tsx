@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IoSearch } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
-import MessageType, { MessageDTO } from "../../types/MessageType";
+import { MessageDTO } from "../../types/MessageType";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import useScroll from "../../hooks/useScroll";
@@ -12,15 +12,14 @@ import { BsChevronLeft, BsMicFill } from "react-icons/bs";
 import Tile from "../../components/common/Tile";
 import BallieIcon from "../../components/icons/BallieIcon";
 import useBallieMetaData from "../../hooks/useBallieMetaData";
-import { useFetch } from "../../hooks/useFetch";
-import { AreaDtoType } from "../../types/DTOs";
-import { getAllAreasURL } from "../../utils/urlFactory";
 import SpeechRecognizer from "../../components/ballieChat/SpeechRecognizer";
+import demoMessages from "../../data/demoMessages";
 
 const chatServerURL: string = import.meta.env.VITE_CHAT_SERVER_URL;
 
 export function BallieChat() {
-  const [messages, setMessages] = useState<MessageType[]>([]);
+  // const [messages, setMessages] = useState<MessageType[]>([]);
+  const messages = demoMessages;
   const [socket, setSocket] = useState<Socket>();
   const [draft, setDraft] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,11 +43,11 @@ export function BallieChat() {
 
   useEffect(() => {
     const socketInstance = io(chatServerURL);
-    socketInstance.on("chat history", (messages: MessageDTO[]) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        ...messages.map(convertMessageDTOToMessageType),
-      ]);
+    socketInstance.on("chat history", (_messages: MessageDTO[]) => {
+      // setMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   ...messages.map(convertMessageDTOToMessageType),
+      // ]);
       socketInstance.off("chat history");
     });
     socketInstance.on("chat message", (msg: MessageDTO) => {
@@ -58,7 +57,7 @@ export function BallieChat() {
         setIsWaiting(false);
       }
 
-      setMessages((prevMessages) => [...prevMessages, newMessage]); // 상태 업데이트하여 메시지 표시
+      // setMessages((prevMessages) => [...prevMessages, newMessage]); // 상태 업데이트하여 메시지 표시
     });
     setSocket(socketInstance);
     return () => {

@@ -2,30 +2,25 @@
 import { IoAddSharp, IoEllipsisVertical } from "react-icons/io5";
 import { VStack, HStack, Spacer } from "../../components/common/Stack";
 import Tile from "../../components/common/Tile";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AreaOutletGroupTile from "../../components/ballieMap/AreaOutletGroupTile";
 import SSAFYMap from "../../components/ballieMap/SAFFYMap";
 import Grid from "../../components/common/Grid";
-import { useFetch } from "../../hooks/useFetch";
-import AreaType from "../../types/AreaType";
-import { getAllAreasWithOutletsURL } from "../../utils/urlFactory";
-import { AreaDtoType } from "../../types/DTOs";
-import { areaDtoToAreaType } from "../../utils/typeConverter";
-import useNavigation from "../../hooks/useNavigation";
+import areas from "../../data/areas";
 
 const MAP_SCALE_FACTOR = 1.5;
 
 export function BallieMapView() {
-  const { path } = useNavigation();
-  const { data: areaDtos, refetch } = useFetch<null, AreaDtoType[]>(
-    getAllAreasWithOutletsURL(),
-    "GET"
-  );
-  const [areas, setAreas] = useState<AreaType[]>([]);
+  // const { path } = useNavigation();
+  // const { data: areaDtos, refetch } = useFetch<null, AreaDtoType[]>(
+  //   getAllAreasWithOutletsURL(),
+  //   "GET"
+  // );
+  // const [areas, setAreas] = useState<AreaType[]>([]);
   const [selectedArea, setSelectedArea] = useState(-1);
   const mapSize = selectedArea == -1 ? 300 : 150;
 
-  const refetchMap = () => setTimeout(refetch, 500);
+  // const refetchMap = () => setTimeout(refetch, 500);
 
   const onMapClick = () => {
     setSelectedArea(-1);
@@ -35,15 +30,15 @@ export function BallieMapView() {
     else setSelectedArea(-1);
   };
 
-  useEffect(() => {
-    if (!areaDtos) return;
-    const newAreas: AreaType[] = areaDtos.map(areaDtoToAreaType);
-    setAreas(newAreas);
-  }, [areaDtos]);
+  // useEffect(() => {
+  //   if (!areaDtos) return;
+  //   const newAreas: AreaType[] = areaDtos.map(areaDtoToAreaType);
+  //   setAreas(newAreas);
+  // }, [areaDtos]);
   // 경로 바뀌면 리페치 (채팅창에서 업데이트될수도있음)
-  useEffect(() => {
-    if (path.length == 1) refetch();
-  }, [path]);
+  // useEffect(() => {
+  //   if (path.length == 1) refetch();
+  // }, [path]);
 
   if (!areas) return <></>;
 
@@ -79,7 +74,7 @@ export function BallieMapView() {
             area={area}
             isSelected={selectedArea === idx}
             onClick={() => onAreaSelect(idx)}
-            refetch={refetchMap}
+            // refetch={refetchMap}
           />
         ))}
       </Grid>
